@@ -1,3 +1,3 @@
 ﻿CS576 Project
 
-Copy database_videos (correct misspelling) and query_video into "Resources" folder.
+Upzip and copy database_videos (fix typo) and query_videos into "Resources" folder.
