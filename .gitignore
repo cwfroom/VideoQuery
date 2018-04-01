@@ -323,4 +323,7 @@ ASALocalRun/
 # NVidia Nsight GPU debugger configuration file
 *.nvuser
 
-Resources
+# Ignore data files
+*.rgb
+*.wav
+*.txt
