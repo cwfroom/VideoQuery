@@ -133,12 +133,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="guicon.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Video.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data.h" />
     <ClInclude Include="guicon.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="MainWindow.h">

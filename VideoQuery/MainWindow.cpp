@@ -1,7 +1,5 @@
 #include "MainWindow.h"
 #include "guicon.h"
-#include "Image.h"
-
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace VideoQuery;
@@ -17,30 +15,20 @@ void Main(array<String^>^ args) {
 }
 
 
-System::Void MainWindow::videoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	MyImage testImage;
-	testImage.setImagePath("database_videos/flowers/flowers001.rgb");
-	testImage.ReadImage();
-	char* rawImageData = testImage.getImageData();
-	
-	if (!rawImageData) {
-		MessageBox::Show("Failed to load image", "Error",MessageBoxButtons::OK);
+System::Void MainWindow::dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!data.dataVideo) {
+		data.dataVideo = gcnew Video(dataVideoImage);
 	}
+	//Loading all 600 frames takes about 90 seconds
+	//Set to a smaller value for testing
+	data.dataVideo->LoadVideo(10,"database_videos","flowers");
 
-	if (rawImageData) {
-		Bitmap^ bitmap = gcnew Bitmap(testImage.getWidth(), testImage.getHeight());
-		for (int i = 0; i < bitmap->Height; i++) {
-			for (int j = 0; j < bitmap->Width; j++) {
-				unsigned char b = rawImageData[bitmap->Width * i * 3 + 3 * j];
-				unsigned char g = rawImageData[bitmap->Width * i * 3 + 3 * j + 1];
-				unsigned char r = rawImageData[bitmap->Width * i * 3 + 3 * j + 2];
-				bitmap->SetPixel(j, i, Drawing::Color::FromArgb(255, r, g, b));
-			}
-		}
+}
 
-		dataVideoImage->Image = dynamic_cast<Image^>(bitmap);
+System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (!data.queryVideo) {
+		data.queryVideo = gcnew Video(queryVideoImage);
 	}
-
-
+	data.queryVideo->LoadVideo(10, "query_videos\\query", "first");
 
 }
