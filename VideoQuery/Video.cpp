@@ -5,6 +5,8 @@ using namespace System::Runtime::InteropServices;
 Video::Video(PictureBox^ display,Label^ label){
 	this->display = display;
 	this->label = label;
+	playbackTimer = gcnew Timers::Timer(interval);
+	playbackTimer->Elapsed += gcnew ElapsedEventHandler(this,&Video::UpdateFrame);
 }
 
 
@@ -12,10 +14,12 @@ void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 	this->frameCount = frameCount;
 	this->folder = folder;
 	this->name = name;
+	currentFrame = 0;
 }
 
 void Video::LoadVideo() {
 	images.Clear();
+	playbackTimer->Stop();
 	SetLabelVisibility(true);
 	String^ path = folder + "\\" + name;
 	Console::WriteLine("Loading " + path);
@@ -33,6 +37,7 @@ void Video::LoadVideo() {
 
 		if (!rawImageData) {
 			MessageBox::Show("Failed to load " + fileName, "Error", MessageBoxButtons::OK);
+			SetLabelVisibility(false);
 			return;
 		}
 
@@ -54,6 +59,22 @@ void Video::LoadVideo() {
 
 	display->Image = dynamic_cast<Image^>(images[0]);
 	SetLabelVisibility(false);
+	playbackTimer->Start();
+}
+
+void Video::PlayVideo() {
+	
+}
+
+void Video::UpdateFrame(Object^ sender, ElapsedEventArgs^ e) {
+	if (currentFrame >= frameCount) {
+		playbackTimer->Stop();
+	}
+	else {
+		display->Image = dynamic_cast<Image^>(images[currentFrame]);
+		currentFrame++;
+	}
+	
 }
 
 void Video::UpdateLabel(String^ text) {

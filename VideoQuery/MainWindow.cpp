@@ -28,11 +28,11 @@ MainWindow::MainWindow(void)
 
 
 System::Void MainWindow::dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	//Loading all 600 frames takes about 90 seconds
+	//Loading all 600 frames takes quite a while
 	//Set to a smaller value for testing
-	data.LoadDataVideo(10, "database_videos", static_cast<String^>(dataVideoListBox->SelectedItem));
+	data.LoadDataVideo(60, "database_videos", static_cast<String^>(dataVideoListBox->SelectedItem));
 }
 
 System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	data.LoadQueryVideo(10, "query_videos\\query", "first");
+	data.LoadQueryVideo(60, "query_videos\\query", "first");
 }
