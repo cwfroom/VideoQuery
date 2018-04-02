@@ -1,11 +1,10 @@
 #include "video.h"
-
 using namespace VideoQuery;
 using namespace System::Runtime::InteropServices;
 
-Video::Video(PictureBox^ display){
+Video::Video(PictureBox^ display,Label^ label){
 	this->display = display;
-	//images = gcnew List<Image^>();
+	this->label = label;
 }
 
 
@@ -17,6 +16,7 @@ void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 
 void Video::LoadVideo() {
 	images.Clear();
+	SetLabelVisibility(true);
 	String^ path = folder + "\\" + name;
 	Console::WriteLine("Loading " + path);
 	for (int i = 1; i <= frameCount; i++) {
@@ -24,7 +24,8 @@ void Video::LoadVideo() {
 		snprintf(numchar, 4, "%03d", i);
 		String^ num = gcnew String(numchar);
 		String^ fileName = path + "\\" + name + num + ".rgb";
-		
+		UpdateLabel("Loading \"" + name + "\" " + "frame " +  i + "/" + frameCount);
+
 		MyImage rawImage;
 		rawImage.setImagePath(static_cast<char*>(Marshal::StringToHGlobalAnsi(fileName).ToPointer()));
 		rawImage.ReadImage();
@@ -47,13 +48,32 @@ void Video::LoadVideo() {
 			}
 			images.Add(bitmap);
 		}
-		Console::WriteLine("Loaded frame "  + i + "/" + frameCount);
 	}
 
 	Console::WriteLine("Finished loading " + path);
 
 	display->Image = dynamic_cast<Image^>(images[0]);
+	SetLabelVisibility(false);
+}
 
+void Video::UpdateLabel(String^ text) {
+	if (label->InvokeRequired) {
+		StringDelegate^ delegate = gcnew StringDelegate(this, &Video::UpdateLabel);
+		label->Invoke(delegate, text);
+	}
+	else {
+		label->Text = text;
+	}
+}
+
+void Video::SetLabelVisibility(bool visible) {
+	if (label->InvokeRequired) {
+		BoolDelegate^ delegate = gcnew BoolDelegate(this, &Video::SetLabelVisibility);
+		label->Invoke(delegate, visible);
+	}
+	else {
+		label->Visible = visible;
+	}
 }
 
 

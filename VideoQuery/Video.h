@@ -13,9 +13,14 @@ namespace VideoQuery {
 
 	ref class Video {
 		public:
-			Video(PictureBox^ display);
+			Video(PictureBox^ display,Label^ label);
 			void SetVideo(int frameCount, String^ folder, String^ name);
 			void LoadVideo();
+		private:
+			delegate void StringDelegate(String^);
+			void UpdateLabel(String^ text);
+			delegate void BoolDelegate(bool);
+			void SetLabelVisibility(bool visible);
 
 		private:
 			int frameCount;
@@ -24,6 +29,7 @@ namespace VideoQuery {
 
 			List<Bitmap^> images;
 			PictureBox^ display;
+			Label^ label;
 	};
 
 }

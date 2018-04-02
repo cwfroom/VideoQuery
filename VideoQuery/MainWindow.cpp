@@ -18,8 +18,8 @@ MainWindow::MainWindow(void)
 {
 	InitializeComponent();
 	//Initialize data object
-	data.dataVideo = gcnew Video(dataVideoImage);
-	data.queryVideo = gcnew Video(queryVideoImage);
+	data.dataVideo = gcnew Video(dataVideoImage,dataVideoLabel);
+	data.queryVideo = gcnew Video(queryVideoImage,queryVideoLabel);
 	for (int i = 0; i < data.dataVideoList->Length;i++) {
 		dataVideoListBox->Items->Add(data.dataVideoList[i]);
 	}

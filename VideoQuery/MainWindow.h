@@ -35,6 +35,8 @@ namespace VideoQuery {
 	private: System::Windows::Forms::PictureBox^  queryVideoImage;
 	private: System::Windows::Forms::Button^  queryVideoPlayButton;
 	private: System::Windows::Forms::ListBox^  dataVideoListBox;
+	private: System::Windows::Forms::Label^  dataVideoLabel;
+	private: System::Windows::Forms::Label^  queryVideoLabel;
 
 
 
@@ -63,6 +65,8 @@ namespace VideoQuery {
 			this->queryVideoImage = (gcnew System::Windows::Forms::PictureBox());
 			this->queryVideoPlayButton = (gcnew System::Windows::Forms::Button());
 			this->dataVideoListBox = (gcnew System::Windows::Forms::ListBox());
+			this->dataVideoLabel = (gcnew System::Windows::Forms::Label());
+			this->queryVideoLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			this->SuspendLayout();
@@ -120,11 +124,37 @@ namespace VideoQuery {
 			this->dataVideoListBox->Size = System::Drawing::Size(352, 164);
 			this->dataVideoListBox->TabIndex = 4;
 			// 
+			// dataVideoLabel
+			// 
+			this->dataVideoLabel->AutoSize = true;
+			this->dataVideoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->dataVideoLabel->Location = System::Drawing::Point(412, 222);
+			this->dataVideoLabel->Name = L"dataVideoLabel";
+			this->dataVideoLabel->Size = System::Drawing::Size(70, 20);
+			this->dataVideoLabel->TabIndex = 5;
+			this->dataVideoLabel->Text = L"Loading ";
+			this->dataVideoLabel->Visible = false;
+			// 
+			// queryVideoLabel
+			// 
+			this->queryVideoLabel->AutoSize = true;
+			this->queryVideoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->queryVideoLabel->Location = System::Drawing::Point(29, 222);
+			this->queryVideoLabel->Name = L"queryVideoLabel";
+			this->queryVideoLabel->Size = System::Drawing::Size(70, 20);
+			this->queryVideoLabel->TabIndex = 6;
+			this->queryVideoLabel->Text = L"Loading ";
+			this->queryVideoLabel->Visible = false;
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 561);
+			this->Controls->Add(this->queryVideoLabel);
+			this->Controls->Add(this->dataVideoLabel);
 			this->Controls->Add(this->dataVideoListBox);
 			this->Controls->Add(this->queryVideoPlayButton);
 			this->Controls->Add(this->queryVideoImage);
@@ -138,6 +168,7 @@ namespace VideoQuery {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
