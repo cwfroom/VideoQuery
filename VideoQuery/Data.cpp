@@ -1,6 +1,19 @@
 #include "Data.h"
 using namespace VideoQuery;
 
+VideoQuery::Data::Data() {
+	dataVideoList = gcnew array<String^>{
+			"flowers",
+			"interview",
+			"movie",
+			"musicvideo",
+			"sports",
+			"starcraft",
+			"traffic"
+	};
+
+}
+
 void VideoQuery::Data::LoadDataVideo(int frameCount, String^ folder, String^ name) {
 	if (dataVideo) {
 		dataVideo->SetVideo(frameCount, folder, name);

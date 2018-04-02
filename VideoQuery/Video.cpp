@@ -16,6 +16,7 @@ void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 }
 
 void Video::LoadVideo() {
+	images.Clear();
 	String^ path = folder + "\\" + name;
 	Console::WriteLine("Loading " + path);
 	for (int i = 1; i <= frameCount; i++) {
@@ -47,7 +48,6 @@ void Video::LoadVideo() {
 			images.Add(bitmap);
 		}
 		Console::WriteLine("Loaded frame "  + i + "/" + frameCount);
-
 	}
 
 	Console::WriteLine("Finished loading " + path);

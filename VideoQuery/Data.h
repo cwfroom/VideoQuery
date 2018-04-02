@@ -8,10 +8,13 @@ namespace VideoQuery{
 
 	ref class Data {
 		public:
+			Data();
 			void LoadDataVideo(int frameCount, String^ folder, String^ name);
 			void LoadQueryVideo(int frameCount, String^ folder, String^ name);
 
 		public:
+			array<String^>^ dataVideoList;
+
 			Video^ queryVideo;
 			Video^ dataVideo;
 	};
