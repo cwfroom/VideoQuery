@@ -7,9 +7,15 @@ Video::Video(PictureBox^ display){
 	this->display = display;
 	//images = gcnew List<Image^>();
 }
- 
-void Video::LoadVideo(int frameCount, String^ folder, String^ name) {
+
+
+void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 	this->frameCount = frameCount;
+	this->folder = folder;
+	this->name = name;
+}
+
+void Video::LoadVideo() {
 	String^ path = folder + "\\" + name;
 	Console::WriteLine("Loading " + path);
 	for (int i = 1; i <= frameCount; i++) {
@@ -47,7 +53,8 @@ void Video::LoadVideo(int frameCount, String^ folder, String^ name) {
 	Console::WriteLine("Finished loading " + path);
 
 	display->Image = dynamic_cast<Image^>(images[0]);
-	
+
 }
+
 
 

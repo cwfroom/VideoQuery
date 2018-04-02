@@ -15,13 +15,7 @@ namespace VideoQuery {
 	public ref class MainWindow : public System::Windows::Forms::Form
 	{
 	public:
-		MainWindow(void)
-		{
-			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
-		}
+		MainWindow(void);
 
 	protected:
 		/// <summary>

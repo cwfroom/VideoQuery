@@ -9,19 +9,19 @@ namespace VideoQuery {
 	using namespace System::Windows::Forms;
 	using namespace System::Drawing;
 	using namespace System::Collections::Generic;
+	using namespace System::Threading;
 
 	ref class Video {
 		public:
 			Video(PictureBox^ display);
-			void LoadVideo(int frameCount, String^ folder, String^ name);
+			void SetVideo(int frameCount, String^ folder, String^ name);
+			void LoadVideo();
 
 		private:
-
-
-		public:
 			int frameCount;
+			String^ folder;
+			String^ name;
 
-		private:
 			List<Bitmap^> images;
 			PictureBox^ display;
 	};

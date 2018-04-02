@@ -4,9 +4,12 @@
 #include "Video.h"
 
 namespace VideoQuery{
+	using namespace System::Threading;
+
 	ref class Data {
 		public:
-			
+			void LoadDataVideo(int frameCount, String^ folder, String^ name);
+			void LoadQueryVideo(int frameCount, String^ folder, String^ name);
 
 		public:
 			Video^ queryVideo;
