@@ -20,16 +20,14 @@ void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 void Video::LoadVideo() {
 	images.Clear();
 	playbackTimer->Stop();
-	SetLabelVisibility(true);
 	String^ path = folder + "\\" + name;
-	Console::WriteLine("Loading " + path);
+	
 	for (int i = 1; i <= frameCount; i++) {
 		char numchar[4];
 		snprintf(numchar, 4, "%03d", i);
 		String^ num = gcnew String(numchar);
 		String^ fileName = path + "\\" + name + num + ".rgb";
 		UpdateLabel("Loading \"" + name + "\" " + "frame " +  i + "/" + frameCount);
-
 		MyImage rawImage;
 		rawImage.setImagePath(static_cast<char*>(Marshal::StringToHGlobalAnsi(fileName).ToPointer()));
 		rawImage.ReadImage();
@@ -37,7 +35,6 @@ void Video::LoadVideo() {
 
 		if (!rawImageData) {
 			MessageBox::Show("Failed to load " + fileName, "Error", MessageBoxButtons::OK);
-			SetLabelVisibility(false);
 			return;
 		}
 
@@ -54,11 +51,8 @@ void Video::LoadVideo() {
 			images.Add(bitmap);
 		}
 	}
-
-	Console::WriteLine("Finished loading " + path);
-
+	UpdateLabel(name + " loaded");
 	display->Image = dynamic_cast<Image^>(images[0]);
-	SetLabelVisibility(false);
 	playbackTimer->Start();
 }
 

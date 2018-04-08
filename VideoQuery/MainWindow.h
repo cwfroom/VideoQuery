@@ -37,6 +37,9 @@ namespace VideoQuery {
 	private: System::Windows::Forms::ListBox^  dataVideoListBox;
 	private: System::Windows::Forms::Label^  dataVideoLabel;
 	private: System::Windows::Forms::Label^  queryVideoLabel;
+	private: System::Windows::Forms::TrackBar^  queryVideoTrackBar;
+	private: System::Windows::Forms::TrackBar^  dataVideoTrackBar;
+
 
 
 
@@ -67,15 +70,19 @@ namespace VideoQuery {
 			this->dataVideoListBox = (gcnew System::Windows::Forms::ListBox());
 			this->dataVideoLabel = (gcnew System::Windows::Forms::Label());
 			this->queryVideoLabel = (gcnew System::Windows::Forms::Label());
+			this->queryVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
+			this->dataVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataVideoPlayButton
 			// 
 			this->dataVideoPlayButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->dataVideoPlayButton->Location = System::Drawing::Point(425, 517);
+			this->dataVideoPlayButton->Location = System::Drawing::Point(589, 390);
 			this->dataVideoPlayButton->Name = L"dataVideoPlayButton";
 			this->dataVideoPlayButton->Size = System::Drawing::Size(75, 32);
 			this->dataVideoPlayButton->TabIndex = 0;
@@ -86,7 +93,7 @@ namespace VideoQuery {
 			// dataVideoImage
 			// 
 			this->dataVideoImage->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->dataVideoImage->Location = System::Drawing::Point(407, 212);
+			this->dataVideoImage->Location = System::Drawing::Point(444, 45);
 			this->dataVideoImage->Name = L"dataVideoImage";
 			this->dataVideoImage->Size = System::Drawing::Size(352, 288);
 			this->dataVideoImage->TabIndex = 1;
@@ -95,7 +102,7 @@ namespace VideoQuery {
 			// queryVideoImage
 			// 
 			this->queryVideoImage->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->queryVideoImage->Location = System::Drawing::Point(22, 212);
+			this->queryVideoImage->Location = System::Drawing::Point(37, 45);
 			this->queryVideoImage->Name = L"queryVideoImage";
 			this->queryVideoImage->Size = System::Drawing::Size(352, 288);
 			this->queryVideoImage->TabIndex = 2;
@@ -105,7 +112,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoPlayButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoPlayButton->Location = System::Drawing::Point(33, 517);
+			this->queryVideoPlayButton->Location = System::Drawing::Point(158, 390);
 			this->queryVideoPlayButton->Name = L"queryVideoPlayButton";
 			this->queryVideoPlayButton->Size = System::Drawing::Size(75, 32);
 			this->queryVideoPlayButton->TabIndex = 3;
@@ -119,9 +126,9 @@ namespace VideoQuery {
 				static_cast<System::Byte>(0)));
 			this->dataVideoListBox->FormattingEnabled = true;
 			this->dataVideoListBox->ItemHeight = 20;
-			this->dataVideoListBox->Location = System::Drawing::Point(407, 12);
+			this->dataVideoListBox->Location = System::Drawing::Point(444, 441);
 			this->dataVideoListBox->Name = L"dataVideoListBox";
-			this->dataVideoListBox->Size = System::Drawing::Size(352, 164);
+			this->dataVideoListBox->Size = System::Drawing::Size(352, 184);
 			this->dataVideoListBox->TabIndex = 4;
 			// 
 			// dataVideoLabel
@@ -129,30 +136,44 @@ namespace VideoQuery {
 			this->dataVideoLabel->AutoSize = true;
 			this->dataVideoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->dataVideoLabel->Location = System::Drawing::Point(412, 222);
+			this->dataVideoLabel->Location = System::Drawing::Point(440, 22);
 			this->dataVideoLabel->Name = L"dataVideoLabel";
-			this->dataVideoLabel->Size = System::Drawing::Size(70, 20);
+			this->dataVideoLabel->Size = System::Drawing::Size(122, 20);
 			this->dataVideoLabel->TabIndex = 5;
-			this->dataVideoLabel->Text = L"Loading ";
-			this->dataVideoLabel->Visible = false;
+			this->dataVideoLabel->Text = L"No video loaded";
 			// 
 			// queryVideoLabel
 			// 
 			this->queryVideoLabel->AutoSize = true;
 			this->queryVideoLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->queryVideoLabel->Location = System::Drawing::Point(29, 222);
+			this->queryVideoLabel->Location = System::Drawing::Point(33, 22);
 			this->queryVideoLabel->Name = L"queryVideoLabel";
-			this->queryVideoLabel->Size = System::Drawing::Size(70, 20);
+			this->queryVideoLabel->Size = System::Drawing::Size(122, 20);
 			this->queryVideoLabel->TabIndex = 6;
-			this->queryVideoLabel->Text = L"Loading ";
-			this->queryVideoLabel->Visible = false;
+			this->queryVideoLabel->Text = L"No video loaded";
+			// 
+			// queryVideoTrackBar
+			// 
+			this->queryVideoTrackBar->Location = System::Drawing::Point(37, 339);
+			this->queryVideoTrackBar->Name = L"queryVideoTrackBar";
+			this->queryVideoTrackBar->Size = System::Drawing::Size(352, 45);
+			this->queryVideoTrackBar->TabIndex = 7;
+			// 
+			// dataVideoTrackBar
+			// 
+			this->dataVideoTrackBar->Location = System::Drawing::Point(444, 339);
+			this->dataVideoTrackBar->Name = L"dataVideoTrackBar";
+			this->dataVideoTrackBar->Size = System::Drawing::Size(352, 45);
+			this->dataVideoTrackBar->TabIndex = 8;
 			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(784, 561);
+			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->dataVideoTrackBar);
+			this->Controls->Add(this->queryVideoTrackBar);
 			this->Controls->Add(this->queryVideoLabel);
 			this->Controls->Add(this->dataVideoLabel);
 			this->Controls->Add(this->dataVideoListBox);
@@ -161,12 +182,14 @@ namespace VideoQuery {
 			this->Controls->Add(this->dataVideoImage);
 			this->Controls->Add(this->dataVideoPlayButton);
 			this->MaximizeBox = false;
-			this->MaximumSize = System::Drawing::Size(800, 600);
-			this->MinimumSize = System::Drawing::Size(800, 600);
+			this->MaximumSize = System::Drawing::Size(1280, 720);
+			this->MinimumSize = System::Drawing::Size(1280, 720);
 			this->Name = L"MainWindow";
 			this->Text = L"MainWindow";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
