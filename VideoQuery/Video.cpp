@@ -2,11 +2,16 @@
 using namespace VideoQuery;
 using namespace System::Runtime::InteropServices;
 
-Video::Video(PictureBox^ display,Label^ label){
-	this->display = display;
-	this->label = label;
+Video::Video(){
 	playbackTimer = gcnew Timers::Timer(interval);
 	playbackTimer->Elapsed += gcnew ElapsedEventHandler(this,&Video::UpdateFrame);
+}
+
+void Video::SetUI(PictureBox^ display, Label^ label, TrackBar^ trackBar, Button^ button) {
+	this->display = display;
+	this->label = label;
+	this->trackBar = trackBar;
+	this->button = button;
 }
 
 
@@ -53,19 +58,34 @@ void Video::LoadVideo() {
 	}
 	UpdateLabel(name + " loaded");
 	display->Image = dynamic_cast<Image^>(images[0]);
-	playbackTimer->Start();
+	
 }
 
 void Video::PlayVideo() {
-	
+	UpdateButton("Pause");
+	if (images.Count > 0) {
+		playbackTimer->Start();
+	}
+}
+
+void Video::PauseVideo() {
+	playbackTimer->Stop();
+	UpdateButton("Play");
+}
+
+void Video::SeekVideo(int frame) {
+	PauseVideo();
+	currentFrame = frame;
+	display->Image = dynamic_cast<Image^>(images[frame]);
 }
 
 void Video::UpdateFrame(Object^ sender, ElapsedEventArgs^ e) {
 	if (currentFrame >= frameCount) {
-		playbackTimer->Stop();
+		PauseVideo();
 	}
 	else {
 		display->Image = dynamic_cast<Image^>(images[currentFrame]);
+		SetTrackBarValue(currentFrame);
 		currentFrame++;
 	}
 	
@@ -81,6 +101,16 @@ void Video::UpdateLabel(String^ text) {
 	}
 }
 
+void Video::UpdateButton(String^ text) {
+	if (button->InvokeRequired) {
+		StringDelegate^ delegate = gcnew StringDelegate(this, &Video::UpdateButton);
+		button->Invoke(delegate, text);
+	}
+	else {
+		button->Text = text;
+	}
+}
+
 void Video::SetLabelVisibility(bool visible) {
 	if (label->InvokeRequired) {
 		BoolDelegate^ delegate = gcnew BoolDelegate(this, &Video::SetLabelVisibility);
@@ -91,5 +121,15 @@ void Video::SetLabelVisibility(bool visible) {
 	}
 }
 
+void Video::SetTrackBarValue(int value) {
+	if (trackBar->InvokeRequired) {
+		IntDelegate^ delegate = gcnew IntDelegate(this, &Video::SetTrackBarValue);
+		trackBar->Invoke(delegate, value);
+	}
+	else {
+		trackBar->Value = value;
+	}
+
+}
 
 

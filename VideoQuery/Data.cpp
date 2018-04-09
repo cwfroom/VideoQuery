@@ -2,6 +2,8 @@
 using namespace VideoQuery;
 
 VideoQuery::Data::Data() {
+	dataVideo = gcnew Video();
+	queryVideo = gcnew Video();
 	dataVideoList = gcnew array<String^>{
 			"flowers",
 			"interview",
@@ -15,19 +17,15 @@ VideoQuery::Data::Data() {
 }
 
 void VideoQuery::Data::LoadDataVideo(int frameCount, String^ folder, String^ name) {
-	if (dataVideo) {
-		dataVideo->SetVideo(frameCount, folder, name);
-		ThreadStart^ dataVideoLoadthreadDelegate = gcnew ThreadStart(dataVideo, &Video::LoadVideo);
-		Thread^ dataVideoLoadThread = gcnew Thread(dataVideoLoadthreadDelegate);
-		dataVideoLoadThread->Start();
-	}
+	dataVideo->SetVideo(frameCount, folder, name);
+	ThreadStart^ dataVideoLoadthreadDelegate = gcnew ThreadStart(dataVideo, &Video::LoadVideo);
+	Thread^ dataVideoLoadThread = gcnew Thread(dataVideoLoadthreadDelegate);
+	dataVideoLoadThread->Start();
 }
 
-void VideoQuery::Data::LoadQueryVideo(int frameCount, String^ folder, String^ name) {
-	if (queryVideo) {
-		queryVideo->SetVideo(frameCount, folder, name);
-		ThreadStart^ queryVideoLoadthreadDelegate = gcnew ThreadStart(queryVideo, &Video::LoadVideo);
-		Thread^ queryVideoLoadThread = gcnew Thread(queryVideoLoadthreadDelegate);
-		queryVideoLoadThread->Start();
-	}
+void VideoQuery::Data::LoadQueryVideo(int frameCount, String^ folder, String^ name) {	
+	queryVideo->SetVideo(frameCount, folder, name);
+	ThreadStart^ queryVideoLoadthreadDelegate = gcnew ThreadStart(queryVideo, &Video::LoadVideo);
+	Thread^ queryVideoLoadThread = gcnew Thread(queryVideoLoadthreadDelegate);
+	queryVideoLoadThread->Start();
 }

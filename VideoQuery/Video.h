@@ -14,16 +14,23 @@ namespace VideoQuery {
 
 	ref class Video {
 		public:
-			Video(PictureBox^ display,Label^ label);
+			Video();
+			void SetUI(PictureBox^ display, Label^ label, TrackBar^ trackBar, Button^ button);
 			void SetVideo(int frameCount, String^ folder, String^ name);
 			void LoadVideo();
 			void PlayVideo();
+			void PauseVideo();
+			void SeekVideo(int);
 
 		private:
 			delegate void StringDelegate(String^);
 			void UpdateLabel(String^ text);
+			void UpdateButton(String^ text);
 			delegate void BoolDelegate(bool);
 			void SetLabelVisibility(bool visible);
+			delegate void IntDelegate(int);
+			void SetTrackBarValue(int value);
+
 			void UpdateFrame(Object^ sender, ElapsedEventArgs^ e);
 
 
@@ -36,6 +43,8 @@ namespace VideoQuery {
 			List<Bitmap^> images;
 			PictureBox^ display;
 			Label^ label;
+			TrackBar^ trackBar;
+			Button^ button;
 			Timers::Timer^ playbackTimer;
 	};
 
