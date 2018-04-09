@@ -35,7 +35,7 @@ namespace VideoQuery {
 
 
 		private:
-			const float interval = 0.033f;
+			const float interval = 33;
 			int frameCount;
 			int currentFrame;
 			String^ folder;
