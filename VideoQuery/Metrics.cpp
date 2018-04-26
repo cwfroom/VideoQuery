@@ -152,12 +152,16 @@ void Metrics::Accuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
 	acc = coloracc;
 	return;
 }
+
+float clampToZero(float x) { return (x > 0.0) ? x : 0.0; }
  
 void Metrics::ColorAccuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
 	// dist = sqrt( sum over (mychannel-theirchannel)^2 )
 	acc = (*(this->dominant_color_frames) - *(other->dominant_color_frames)).cwiseAbs2().rowwise().sum().cwiseSqrt();
-	// 1 - dist / 441.67   --  NOTE: 441.67 ~= sqrt(3) * 255
-	acc = 1.0 - acc / 441.67;
+	// Invert using 255.0 (largest langth along one axis)
+	acc = 1.0 - acc / 255.0;
+	// If distance between the two colors is larger than 255.0 (negative acc), then zero accuracy
+	acc = acc.unaryExpr(std::ptr_fun(clampToZero));
 	return;
 }
 
