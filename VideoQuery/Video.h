@@ -21,6 +21,8 @@ namespace VideoQuery {
 			void PlayVideo();
 			void PauseVideo();
 			void SeekVideo(int);
+			int GetFrameCount() { return frameCount; }
+			Bitmap^ GetImage(int frame) { return images[frame]; }
 
 		private:
 			delegate void StringDelegate(String^);
