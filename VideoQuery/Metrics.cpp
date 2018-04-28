@@ -1,6 +1,9 @@
 #include "Metrics.h"
 
-Metrics::Metrics() : dominant_color_frames(NULL)
+Metrics::Metrics() :
+	dominant_color_frames(NULL),
+	optical_flow_x_frames(NULL),
+	optical_flow_y_frames(NULL)
 {
 
 }
@@ -8,7 +11,13 @@ Metrics::Metrics() : dominant_color_frames(NULL)
 Metrics::~Metrics()
 {
 	if (dominant_color_frames != NULL) {
-		// delete dominant_color_frames;
+		delete dominant_color_frames;
+	}
+	if (optical_flow_x_frames != NULL) {
+		delete optical_flow_x_frames;
+	}
+	if (optical_flow_y_frames != NULL) {
+		delete optical_flow_y_frames;
 	}
 }
 
@@ -36,13 +45,8 @@ void Metrics::ComputeColorMetric(Video^ video) {
 	std::vector<float> dominant_color(video->GetFrameCount() * 3);
 	for (int f = 0; f < video->GetFrameCount(); f++) {
 		Bitmap^ image = video->GetImage(f);
-
-		/* https://stackoverflow.com/questions/29018442/systemdrawingbitmap-to-cvmat-opencv-c-cli */
-		// Convert bitmap to OpenCV Mat
-		System::Drawing::Rectangle blank = System::Drawing::Rectangle(0, 0, image->Width, image->Height);
-		System::Drawing::Imaging::BitmapData^ bmpdata = image->LockBits(blank, System::Drawing::Imaging::ImageLockMode::ReadWrite, image->PixelFormat);
-		cv::Mat bgr(cv::Size(image->Width, image->Height), CV_8UC4, bmpdata->Scan0.ToPointer(), cv::Mat::AUTO_STEP);
-		image->UnlockBits(bmpdata);
+		cv::Mat bgr;
+		BGRFromBitmap(image, bgr);
 
 		// Convert to HSV
 		cv::Mat hsv;
@@ -136,8 +140,83 @@ void Metrics::ComputeColorMetric(Video^ video) {
 }
 
 void Metrics::ComputeMotionMetric(Video^ video) {
-	// for pairs of frames, compute motion metric
+	/*
+	For each frame, compute motion metric
 
+	BGR image is converted to grayscale and downsized *.25
+	Motion metric is taken from Farneback dense optical flow
+
+	Motion metric is saved as Eigen arrays: `this->optical_flow_x_frames` and `this->optical_flow_y_frames`
+
+	*/
+
+	int width, height, wh, reductionscale = 4;
+	if (video->GetFrameCount() > 1) {
+		Bitmap^ prev = video->GetImage(0);
+		width = prev->Width / reductionscale;
+		height = prev->Height / reductionscale;
+		wh = width * height;
+
+		if (optical_flow_x_frames != NULL) {
+			delete optical_flow_x_frames;
+		}
+		optical_flow_x_frames = new Eigen::ArrayXXf(video->GetFrameCount() - 1, wh);
+
+		if (optical_flow_y_frames != NULL) {
+			delete optical_flow_y_frames;
+		}
+		optical_flow_y_frames = new Eigen::ArrayXXf(video->GetFrameCount() - 1, wh);
+	}
+
+	// Set up first previous image
+	Bitmap^ prev = video->GetImage(0);
+	cv::Mat bgr_prev, gray_prev;
+	BGRFromBitmap(prev, bgr_prev);
+	cv::cvtColor(bgr_prev, gray_prev, cv::COLOR_BGRA2GRAY);
+	cv::resize(gray_prev, gray_prev, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+
+	// Retain flow calculations for cv::OPTFLOW_USE_INITIAL_FLOW as initial flow approx.
+	cv::Mat flow;
+	for (int f = 0; f < video->GetFrameCount()-1; f++) {
+		// Grab next frame
+		Bitmap^ next = video->GetImage(f+1);
+		cv::Mat bgr_next,  gray_next;
+		BGRFromBitmap(next, bgr_next);
+		cv::cvtColor(bgr_next, gray_next, cv::COLOR_BGRA2GRAY);
+		cv::resize(gray_next, gray_next, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+
+		// cv::namedWindow("Gray");
+		// cv::imshow("Gray", gray_next);
+		// cv::waitKey(0);
+
+		// Compute optical flow
+		cv::calcOpticalFlowFarneback(gray_prev, gray_next, flow, 0.8, 2, 8, 2, 7, 1.5,
+			f != 0 ? cv::OPTFLOW_USE_INITIAL_FLOW : cv::OPTFLOW_FARNEBACK_GAUSSIAN);
+		
+		// Split flow components to x-y
+		std::vector<cv::Mat> flow_split;
+		cv::split(flow, flow_split);
+
+		Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> x_map(
+			flow_split[0].ptr<float>(), 1, wh);
+		(*optical_flow_x_frames).row(f) = x_map.row(0);
+
+		Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> y_map(
+			flow_split[1].ptr<float>(), 1, wh);
+		(*optical_flow_y_frames).row(f) = y_map.row(0);
+
+		// Retain previous gray value
+		gray_prev = gray_next;
+	}
+}
+
+void Metrics::BGRFromBitmap(Bitmap^ bitmap, cv::Mat& bgr) {
+	/* https://stackoverflow.com/questions/29018442/systemdrawingbitmap-to-cvmat-opencv-c-cli */
+	// Convert bitmap to OpenCV Mat
+	System::Drawing::Rectangle blank = System::Drawing::Rectangle(0, 0, bitmap->Width, bitmap->Height);
+	System::Drawing::Imaging::BitmapData^ bmpdata = bitmap->LockBits(blank, System::Drawing::Imaging::ImageLockMode::ReadWrite, bitmap->PixelFormat);
+	bgr = cv::Mat(cv::Size(bitmap->Width, bitmap->Height), CV_8UC4, bmpdata->Scan0.ToPointer(), cv::Mat::AUTO_STEP);
+	bitmap->UnlockBits(bmpdata);
 }
 
 void Metrics::ComputeAudioMetric(Video^ video) {
@@ -154,8 +233,9 @@ void Metrics::Accuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
 }
 
 float clampToZero(float x) { return (x > 0.0) ? x : 0.0; }
- 
+
 void Metrics::ColorAccuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
+	// Color accuracy measured as inverse distance between the two dominant colors of corresponding frames
 	// dist = sqrt( sum over (mychannel-theirchannel)^2 )
 	acc = (*(this->dominant_color_frames) - *(other->dominant_color_frames)).cwiseAbs2().rowwise().sum().cwiseSqrt();
 	// Invert using 255.0 (largest langth along one axis)
@@ -166,7 +246,12 @@ void Metrics::ColorAccuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
 }
 
 void Metrics::MotionAccuracy(Metrics^ other, Eigen::ArrayXXf& acc) {
-	// Given other and frame, compute motion accuracy, within [0, 1]
+	// Motion accuracy measured as inverse mean of motion magnitude squared differences
+	acc = (*(this->optical_flow_x_frames) - *(other->optical_flow_x_frames)).cwiseAbs2().rowwise().mean().square() +
+		(*(this->optical_flow_y_frames) - *(other->optical_flow_y_frames)).cwiseAbs2().rowwise().mean().square();
+	// Because flow
+	acc = 1.0 - acc;
+	acc = acc.unaryExpr(std::ptr_fun(clampToZero));
 	return;
 }
 
