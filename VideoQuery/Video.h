@@ -34,7 +34,7 @@ namespace VideoQuery {
 			void SetTrackBarValue(int value);
 			void UpdateFrame(Object^ sender, ElapsedEventArgs^ e);
 		private:
-			const float interval = 33.33333;
+			const float interval = 33.3333;
 			int frameCount;
 			int currentFrame;
 			String^ folder;

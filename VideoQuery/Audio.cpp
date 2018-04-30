@@ -16,8 +16,8 @@ void Audio::LoadAudio(char* filePath) {
 }
 
 void Audio::PlayAudio(int frame) {
-	tChunk->abuf = chunk->abuf + 2942 * frame;
-	tChunk->alen = chunk->alen - 2942 * frame;
+	tChunk->abuf = chunk->abuf + 2940 * frame;
+	tChunk->alen = chunk->alen - 2940 * frame;
 	tChunk->allocated = chunk->allocated;
 	tChunk->volume = chunk->volume;
 	channel = Mix_PlayChannel(-1, tChunk, 0);

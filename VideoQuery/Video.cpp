@@ -67,6 +67,7 @@ void Video::LoadVideo() {
 
 void Video::PlayVideo() {
 	UpdateButton("Pause");
+	Console::WriteLine("Playing from frame " + currentFrame);
 	audioPlayer->PlayAudio(currentFrame);
 	if (images.Count > 0) {
 		playbackTimer->Start();
