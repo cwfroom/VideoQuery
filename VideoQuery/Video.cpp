@@ -3,6 +3,7 @@ using namespace VideoQuery;
 using namespace System::Runtime::InteropServices;
 
 Video::Video(){
+	audioPlayer = new Audio();
 	playbackTimer = gcnew Timers::Timer(interval);
 	playbackTimer->Elapsed += gcnew ElapsedEventHandler(this,&Video::UpdateFrame);
 }
@@ -56,6 +57,9 @@ void Video::LoadVideo() {
 			images.Add(bitmap);
 		}
 	}
+	UpdateLabel("Loading \"" + name + "\" " + "sound");
+	String^ audioFilePath = path + "\\" + name + ".wav";
+	audioPlayer->LoadAudio(static_cast<char*>(Marshal::StringToHGlobalAnsi(audioFilePath).ToPointer()));
 	UpdateLabel(name + " loaded");
 	display->Image = dynamic_cast<Image^>(images[0]);
 	
@@ -63,6 +67,7 @@ void Video::LoadVideo() {
 
 void Video::PlayVideo() {
 	UpdateButton("Pause");
+	audioPlayer->PlayAudio(currentFrame);
 	if (images.Count > 0) {
 		playbackTimer->Start();
 	}
@@ -70,6 +75,7 @@ void Video::PlayVideo() {
 
 void Video::PauseVideo() {
 	playbackTimer->Stop();
+	audioPlayer->PauseAudio();
 	UpdateButton("Play");
 }
 
@@ -131,5 +137,4 @@ void Video::SetTrackBarValue(int value) {
 	}
 
 }
-
 

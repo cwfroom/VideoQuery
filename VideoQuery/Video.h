@@ -3,7 +3,7 @@
 #define VIDEO_H
 
 #include "Image.h"
-
+#include "Audio.h"
 namespace VideoQuery {
 	using namespace System;
 	using namespace System::Windows::Forms;
@@ -32,12 +32,9 @@ namespace VideoQuery {
 			void SetLabelVisibility(bool visible);
 			delegate void IntDelegate(int);
 			void SetTrackBarValue(int value);
-
 			void UpdateFrame(Object^ sender, ElapsedEventArgs^ e);
-
-
 		private:
-			const float interval = 33;
+			const float interval = 33.33333;
 			int frameCount;
 			int currentFrame;
 			String^ folder;
@@ -48,6 +45,8 @@ namespace VideoQuery {
 			TrackBar^ trackBar;
 			Button^ button;
 			Timers::Timer^ playbackTimer;
+
+			Audio* audioPlayer;
 	};
 
 }

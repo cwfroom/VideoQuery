@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 #include "guicon.h"
+#include "SDL.h"
+#include "SDL_mixer.h"
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace VideoQuery;
@@ -9,12 +11,15 @@ using namespace VideoQuery;
 
 [STAThreadAttribute]
 void Main(array<String^>^ args) {
+	if (SDL_Init(SDL_INIT_AUDIO) < 0) return;
+	if (Mix_OpenAudio(44100, AUDIO_S16LSB, 2, 4096) < 0) return;
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	VideoQuery::MainWindow form;
 	//Attach a console for debugging
 	RedirectIOToConsole();
 	Application::Run(%form);
+	SDL_Quit();
 }
 
 MainWindow::MainWindow(void)

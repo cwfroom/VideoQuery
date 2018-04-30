@@ -102,12 +102,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/Libraries/eigen;$(SolutionDir)/Libraries/opencv/build/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\include;$(SolutionDir)Libraries\eigen;$(SolutionDir)Libraries\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
-      <AdditionalDependencies>opencv_world340d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)/Libraries/opencv/build/x64/vc15/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world340d.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\lib\x64;$(SolutionDir)Libraries\opencv\build\x64\vc15\lib</AdditionalLibraryDirectories>
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,19 +138,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="guicon.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="Video.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="guicon.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="MainWindow.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Metrics.h" />
     <ClInclude Include="Video.h" />
   </ItemGroup>
   <ItemGroup>
