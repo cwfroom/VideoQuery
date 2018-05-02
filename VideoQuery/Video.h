@@ -16,6 +16,7 @@ namespace VideoQuery {
 		public:
 			Video();
 			void SetUI(PictureBox^ display, Label^ label, TrackBar^ trackBar, Button^ button);
+			void CopyUI(Video^ other);
 			void SetVideo(int frameCount, String^ folder, String^ name);
 			void LoadVideo();
 			void PlayVideo();
@@ -24,6 +25,8 @@ namespace VideoQuery {
 			int GetFrameCount() { return frameCount; }
 			Bitmap^ GetImage(int frame) { return images[frame]; }
 			String^ GetAudioFilePath() { return folder + "\\" + name + "\\" + name + ".wav";  }
+			String^ GetName() { return name; }
+			bool IsLoaded() { return loaded; }
 
 		private:
 			delegate void StringDelegate(String^);
@@ -34,6 +37,7 @@ namespace VideoQuery {
 			delegate void IntDelegate(int);
 			void SetTrackBarValue(int value);
 			void UpdateFrame(Object^ sender, ElapsedEventArgs^ e);
+			bool loaded;
 		private:
 			const float interval = 33.3333;
 			int frameCount;

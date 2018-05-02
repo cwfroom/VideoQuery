@@ -15,6 +15,13 @@ void Video::SetUI(PictureBox^ display, Label^ label, TrackBar^ trackBar, Button^
 	this->button = button;
 }
 
+void Video::CopyUI(Video^ other) {
+	this->display = other->display;
+	this->label = other->label;
+	this->trackBar = other->trackBar;
+	this->button = other->button;
+}
+
 
 void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 	this->frameCount = frameCount;
@@ -24,6 +31,7 @@ void Video::SetVideo(int frameCount, String^ folder, String^ name) {
 }
 
 void Video::LoadVideo() {
+	loaded = false;
 	images.Clear();
 	playbackTimer->Stop();
 	String^ path = folder + "\\" + name;
@@ -61,8 +69,10 @@ void Video::LoadVideo() {
 	String^ audioFilePath = GetAudioFilePath();
 	audioPlayer->LoadAudio(static_cast<char*>(Marshal::StringToHGlobalAnsi(audioFilePath).ToPointer()));
 	UpdateLabel(name + " loaded");
-	display->Image = dynamic_cast<Image^>(images[0]);
-	
+	if (this->display) {
+		display->Image = dynamic_cast<Image^>(images[0]);
+	}
+	loaded = true;
 }
 
 void Video::PlayVideo() {
@@ -99,12 +109,14 @@ void Video::UpdateFrame(Object^ sender, ElapsedEventArgs^ e) {
 }
 
 void Video::UpdateLabel(String^ text) {
-	if (label->InvokeRequired) {
-		StringDelegate^ delegate = gcnew StringDelegate(this, &Video::UpdateLabel);
-		label->Invoke(delegate, text);
-	}
-	else {
-		label->Text = text;
+	if (this->label) {
+		if (label->InvokeRequired) {
+			StringDelegate^ delegate = gcnew StringDelegate(this, &Video::UpdateLabel);
+			label->Invoke(delegate, text);
+		}
+		else {
+			label->Text = text;
+		}
 	}
 }
 

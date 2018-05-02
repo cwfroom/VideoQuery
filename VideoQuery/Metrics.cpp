@@ -4,7 +4,8 @@ Metrics::Metrics() :
 	dominant_color_frames(NULL),
 	optical_flow_x_frames(NULL),
 	optical_flow_y_frames(NULL),
-	audio_samples(NULL)
+	audio_samples(NULL),
+	perFrameAccuracy(NULL)
 {
 }
 
@@ -22,6 +23,13 @@ Metrics::~Metrics()
 	if (audio_samples != NULL) {
 		delete audio_samples;
 	}
+	if (perFrameAccuracy != NULL) {
+		delete perFrameAccuracy;
+	}
+}
+
+void Metrics::SetVideo(Video^ video) {
+	this->video = video;
 }
 
 void DumpArray(const char* filename, Eigen::ArrayXXf& arr) {
@@ -48,7 +56,7 @@ void ReadArray(const char* filename, Eigen::ArrayXXf& arr) {
 	arr = Eigen::Map<Eigen::ArrayXXf>(&mat_data[0], rows, cols);
 }
 
-void Metrics::Dump(const char* filename) {
+void Metrics::Dump() {
 	/*
 	* Dumps metric information into file
 	* Assumes that this->Compute(..) has been called
@@ -56,7 +64,8 @@ void Metrics::Dump(const char* filename) {
 	* Prepends metric type to filename
 	*
 	*/
-	std::string filenamestr(filename);
+	std::string filenamestr(
+		static_cast<char*>(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(video->GetName()).ToPointer()));
 
 	/* Dominant Colors (ArrayXXf) */
 	DumpArray((std::string("dominant_colors.") + filenamestr).c_str(), *(this->dominant_color_frames));
@@ -69,7 +78,7 @@ void Metrics::Dump(const char* filename) {
 	// Don't dump - Just "compute" from WAV file (basically reading WAV, we don't alter it)
 }
 
-void Metrics::Read(const char* filename, Video^ video) {
+void Metrics::Read() {
 	/*
 	* Read metric information from file
 	*
@@ -77,7 +86,8 @@ void Metrics::Read(const char* filename, Video^ video) {
 	* Deletes old metrics
 	*
 	*/
-	std::string filenamestr(filename);
+	std::string filenamestr(
+		static_cast<char*>(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(video->GetName()).ToPointer()));
 
 	// Just make sure we have this ... Not the best design ..
 	this->frames = video->GetFrameCount();
@@ -106,19 +116,24 @@ void Metrics::Read(const char* filename, Video^ video) {
 
 	/* Audio Samples */
 	// We aren't changing anything .. just re-read the WAV
-	ComputeAudioMetric(video);
+	ComputeAudioMetric();
 }
 
-void Metrics::Compute(Video^ video) {
+void Metrics::Compute() {
+	while (!video->IsLoaded()) {
+		// Hack for serial processing, only compute metric if video is loaded...
+		// Maybe just don't have video depend on this to prevent deadlock x_x
+		Thread::Sleep(100);
+	}
 	// for each frame, compute all metrics
 	this->frames = video->GetFrameCount();
 
-	ComputeColorMetric(video);
-	ComputeAudioMetric(video);
-	ComputeMotionMetric(video);
+	ComputeColorMetric();
+	ComputeAudioMetric();
+	ComputeMotionMetric();
 }
 
-void Metrics::ComputeColorMetric(Video^ video) {
+void Metrics::ComputeColorMetric() {
 	/*
 		For each frame, compute dominant color
 
@@ -232,7 +247,7 @@ void Metrics::ComputeColorMetric(Video^ video) {
 	dominant_color_frames = new Eigen::ArrayXXf(dominant_color_map);
 }
 
-void Metrics::ComputeMotionMetric(Video^ video) {
+void Metrics::ComputeMotionMetric() {
 	/*
 	For each frame, compute motion metric
 
@@ -314,7 +329,7 @@ void Metrics::BGRFromBitmap(Bitmap^ bitmap, cv::Mat& bgr) {
 	bitmap->UnlockBits(bmpdata);
 }
 
-void Metrics::ComputeAudioMetric(Video^ video) {
+void Metrics::ComputeAudioMetric() {
 	if (this->audio_samples != NULL) {
 		delete this->audio_samples;
 	}
@@ -359,7 +374,11 @@ void Metrics::ComputeAudioMetric(Video^ video) {
 	audio_samples = new Eigen::VectorXf(wave_map.cast<float>().colwise().mean().row(0));
 }
 
-int Metrics::Accuracy(Metrics^ query, Eigen::ArrayXXf& acc, float& accf) {
+void Metrics::SetQuery(Metrics^ v_query) {
+	this->query = v_query;
+}
+
+void Metrics::Accuracy() {
 	/* Returns the start frame with the highest accuracy total accuracy
 	 *
 	 * acc is loaded with the N vector of per-frame accuracies that has highest total accuracy,
@@ -386,17 +405,27 @@ int Metrics::Accuracy(Metrics^ query, Eigen::ArrayXXf& acc, float& accf) {
 	Eigen::ArrayXXf audioacc_mean;
 	audioacc_mean = audioacc.colwise().mean();
 	
-	acc =
-		coloracc_mean * color_weight +
+	// Find weighted mean accuracies
+	Eigen::ArrayXXf meanacc =
+		coloracc_mean  * color_weight +
 		motionacc_mean * motion_weight +
-		audioacc_mean * audio_weight;
+		audioacc_mean  * audio_weight;
 
+	// Get start frame with largest mean accuracy
 	Eigen::ArrayXXf::Index max_i, max_j;
-	accf = acc.maxCoeff(&max_i, &max_j);
-	
-	std::vector<float> coloraccv(coloracc.col(max_j).data(), coloracc.col(max_j).data() + query->frames);
-	std::vector<float> audioaccv(audioacc.col(max_j).data(), audioacc.col(max_j).data() + query->frames);
-	return (int) max_j;
+	maxAccuracy = meanacc.maxCoeff(&max_i, &max_j);
+
+	// Set per-frame accuracy beginning at start frame
+	if (perFrameAccuracy != NULL) {
+		delete perFrameAccuracy;
+	}
+	perFrameAccuracy = new Eigen::ArrayXXf(
+		coloracc.col(max_j) * color_weight +
+		motionacc.col(max_j) * motion_weight +
+		audioacc.col(max_j) * audio_weight);
+
+	// Set max start frame
+	maxStartFrame = (int) max_j;
 }
 
 float clampToZero(float x) { return (x > 0.0) ? x : 0.0; }

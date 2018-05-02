@@ -6,8 +6,9 @@ using namespace System;
 using namespace System::Windows::Forms;
 using namespace VideoQuery;
 
-#define queryFrames 60
-#define dataFrames 60
+#define queryFrames 150
+#define dataFrames 600
+#define LOAD_DATABASE_METRICS 1		// 1 to read metrics from disk; 0 to generate and dump
 
 [STAThreadAttribute]
 void Main(array<String^>^ args) {
@@ -34,6 +35,11 @@ MainWindow::MainWindow(void)
 	dataVideoListBox->SelectedIndex = 0;
 	dataVideoTrackBar->Maximum = dataFrames - 1;
 	queryVideoTrackBar->Maximum = queryFrames - 1;
+	if (LOAD_DATABASE_METRICS) {
+		data.LoadDatabaseMetrics(dataFrames);
+	} else {
+		data.GenerateDatabaseMetrics(dataFrames);
+	}
 }
 
 
@@ -66,12 +72,20 @@ System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, Sys
 
 System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (queryVideoNameText->Text != "") {
+		dataVideoListBox->Items->Clear();
+		queryVideoLabel->Text = "Computing Accuracies ....";
 		data.LoadQueryVideo(queryFrames, "query_videos\\query", queryVideoNameText->Text);
+		array<String^>^ accstrs = data.GetSortedAccuracyStrings();
+		for (int i = 0; i < accstrs->Length; i++) {
+			dataVideoListBox->Items->Add(accstrs[i]);
+		}
+		dataVideoListBox->SelectedIndex = 0;
 	}
 }
 
 System::Void MainWindow::dataVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	data.LoadDataVideo(dataFrames, "database_videos", static_cast<String^>(dataVideoListBox->SelectedItem));
+	// dataVideoListBox loads and has indices of dataVideoListBox
+	data.SwapDataVideo(dataVideoListBox->SelectedIndex);
 }
 
 System::Void MainWindow::setMetricsBox(int* arr,int size){

@@ -43,6 +43,21 @@ private:
 	Eigen::ArrayXXf* optical_flow_x_frames;   // rows: frame-pair, col: flow x-component
 	Eigen::ArrayXXf* optical_flow_y_frames;   // rows: frame-pair, col: flow y-component
 	Eigen::VectorXf* audio_samples;			  // vector of mono audio samples
+	Video^ video;
+	Metrics^ query;
+
+	// To be filled in by Accuracy()
+	Eigen::ArrayXXf* perFrameAccuracy;
+	int maxStartFrame;
+	float maxAccuracy;
+
+	void ComputeColorMetric();
+	void ComputeMotionMetric();
+	void ComputeAudioMetric();
+	void ColorAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+	void MotionAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+	void AudioAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+
 
 public:
 	int audio_sample_rate;
@@ -50,20 +65,21 @@ public:
 
 	Metrics();
 	~Metrics();
-	void Dump(const char* filename);
-	void Read(const char* filename, Video^ video);
-	void Compute(Video^ video);
-	void ComputeColorMetric(Video^ video);
-	void ComputeMotionMetric(Video^ video);
-	void ComputeAudioMetric(Video^ video);
+	void SetVideo(Video^ video);
+	void Dump();
+	void Read();
+	void Compute();
+	void ComputeDump() { Compute(); Dump(); }
 
 	// Call accuracy functions with this as the database video, other as query video
-	int Accuracy(Metrics^ query, Eigen::ArrayXXf& acc, float& accf);
-	void ColorAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
-	void MotionAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
-	void AudioAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+	void SetQuery(Metrics^ query);
+	void Accuracy();
 
 	void BGRFromBitmap(Bitmap^ bitmap, cv::Mat& bgr);
+
+	int GetMaxStartFrame() { return maxStartFrame; }
+	float GetMaxAccuracy() { return maxAccuracy; }
+	Eigen::ArrayXXf* GetPerFrameAccuracy() { return perFrameAccuracy; }
 };
 
 #endif // ! METRICS_H
