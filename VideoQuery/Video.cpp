@@ -58,7 +58,7 @@ void Video::LoadVideo() {
 		}
 	}
 	UpdateLabel("Loading \"" + name + "\" " + "sound");
-	String^ audioFilePath = path + "\\" + name + ".wav";
+	String^ audioFilePath = GetAudioFilePath();
 	audioPlayer->LoadAudio(static_cast<char*>(Marshal::StringToHGlobalAnsi(audioFilePath).ToPointer()));
 	UpdateLabel(name + " loaded");
 	display->Image = dynamic_cast<Image^>(images[0]);

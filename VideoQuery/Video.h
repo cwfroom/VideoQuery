@@ -23,6 +23,7 @@ namespace VideoQuery {
 			void SeekVideo(int);
 			int GetFrameCount() { return frameCount; }
 			Bitmap^ GetImage(int frame) { return images[frame]; }
+			String^ GetAudioFilePath() { return folder + "\\" + name + "\\" + name + ".wav";  }
 
 		private:
 			delegate void StringDelegate(String^);

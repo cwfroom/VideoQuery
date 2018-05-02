@@ -321,7 +321,7 @@ void Metrics::ComputeAudioMetric(Video^ video) {
 
 	FILE *ptr;
 
-	ptr = fopen(static_cast<char*>(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(video->GetAudioFilepath()).ToPointer()), "rb");
+	ptr = fopen(static_cast<char*>(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(video->GetAudioFilePath()).ToPointer()), "rb");
 	if (ptr == NULL) {
 		exit(1);
 	}
