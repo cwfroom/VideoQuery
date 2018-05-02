@@ -17,25 +17,53 @@
 
 using namespace VideoQuery;
 
+struct WAVHeader {
+	char chunkID[4]; //"RIFF"
+	unsigned long chunkSize; // File size
+	char format[4]; // "WAVE"
+	char subchunk1ID[4]; // "fmt "
+	unsigned long subchunk1Size; // Length of above data
+	unsigned short audioFormat; // Format type (1: PCM)
+	unsigned short numChannels; // Number of channels
+	unsigned long sampleRate; // Sample Rate = Number of Samples per second, or Hertz.
+	unsigned long byteRate; // (Sample Rate * BitsPerSample * Channels) / 8.
+	unsigned short blockAlign;
+	unsigned short bitsPerSample;
+	unsigned char data_chunk_header[4];
+	unsigned int data_size;
+};
+
+void DumpArray(const char* filename, Eigen::ArrayXXf& arr);
+void ReadArray(const char* filename, Eigen::ArrayXXf& arr);
+
 ref class Metrics
 {
 private:
 	Eigen::ArrayXXf* dominant_color_frames;   // rows: frame, col: BGR
 	Eigen::ArrayXXf* optical_flow_x_frames;   // rows: frame-pair, col: flow x-component
 	Eigen::ArrayXXf* optical_flow_y_frames;   // rows: frame-pair, col: flow y-component
+	Eigen::VectorXf* audio_samples;			  // vector of mono audio samples
 
 public:
+	int audio_sample_rate;
+	int frames;
+
 	Metrics();
 	~Metrics();
+	void Dump(const char* filename);
+	void Read(const char* filename, Video^ video);
 	void Compute(Video^ video);
 	void ComputeColorMetric(Video^ video);
 	void ComputeMotionMetric(Video^ video);
 	void ComputeAudioMetric(Video^ video);
-	void Accuracy(Metrics^ other, Eigen::ArrayXXf& acc);
-	void ColorAccuracy(Metrics^ other, Eigen::ArrayXXf& acc);
-	void MotionAccuracy(Metrics^ other, Eigen::ArrayXXf& acc);
-	void AudioAccuracy(Metrics^ other, Eigen::ArrayXXf& acc);
+
+	// Call accuracy functions with this as the database video, other as query video
+	int Accuracy(Metrics^ query, Eigen::ArrayXXf& acc, float& accf);
+	void ColorAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+	void MotionAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+	void AudioAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
+
 	void BGRFromBitmap(Bitmap^ bitmap, cv::Mat& bgr);
 };
 
-#endif // METRICS_H
+#endif // ! METRICS_H
