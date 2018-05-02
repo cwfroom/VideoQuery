@@ -102,12 +102,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\include;$(SolutionDir)Libraries\eigen;$(SolutionDir)Libraries\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\include;$(SolutionDir)Libraries\SDL2_mixer-2.0.2\include;$(SolutionDir)Libraries\eigen;$(SolutionDir)Libraries\opencv\build\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
       <AdditionalDependencies>opencv_world340d.lib;SDL2.lib;SDL2main.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\lib\x64;$(SolutionDir)Libraries\opencv\build\x64\vc15\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Libraries\SDL2-2.0.8\lib\x64;$(SolutionDir)Libraries\SDL2_mixer-2.0.2\lib\x64;$(SolutionDir)Libraries\opencv\build\x64\vc15\lib</AdditionalLibraryDirectories>
       <EntryPointSymbol>Main</EntryPointSymbol>
       <SubSystem>Windows</SubSystem>
     </Link>
