@@ -13,16 +13,18 @@ Audio::~Audio() {
 
 void Audio::LoadAudio(char* filePath) {
 	chunk = Mix_LoadWAV(filePath);
+	//Console::WriteLine("Audio Length " + chunk->alen);
 }
 
 void Audio::PlayAudio(int frame) {
-	tChunk->abuf = chunk->abuf + 2940 * frame;
-	tChunk->alen = chunk->alen - 2940 * frame;
+	tChunk->abuf = chunk->abuf + 5880 * frame;
+	tChunk->alen = chunk->alen - 5880 * frame;
 	tChunk->allocated = chunk->allocated;
 	tChunk->volume = chunk->volume;
 	channel = Mix_PlayChannel(-1, tChunk, 0);
 }
 
 void Audio::PauseAudio() {
-	Mix_Pause(channel);
+	//Mix_Pause(channel);
+	Mix_HaltChannel(channel);
 }
