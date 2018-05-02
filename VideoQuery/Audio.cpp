@@ -26,5 +26,8 @@ void Audio::PlayAudio(int frame) {
 
 void Audio::PauseAudio() {
 	//Mix_Pause(channel);
-	Mix_HaltChannel(channel);
+	if (channel >= 0) {
+		Mix_HaltChannel(channel);
+	}
+	
 }

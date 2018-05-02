@@ -40,6 +40,11 @@ namespace VideoQuery {
 	private: System::Windows::Forms::TrackBar^  queryVideoTrackBar;
 	private: System::Windows::Forms::TrackBar^  dataVideoTrackBar;
 	private: System::Windows::Forms::Button^  dataVideoLoadButton;
+	private: System::Windows::Forms::PictureBox^  metricsBox0;
+	private: System::Windows::Forms::TextBox^  queryVideoNameText;
+	private: System::Windows::Forms::Button^  queryVideoLoadButton;
+
+	private: System::Windows::Forms::Button^  queryButton;
 
 
 
@@ -74,10 +79,15 @@ namespace VideoQuery {
 			this->queryVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
 			this->dataVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
 			this->dataVideoLoadButton = (gcnew System::Windows::Forms::Button());
+			this->metricsBox0 = (gcnew System::Windows::Forms::PictureBox());
+			this->queryVideoNameText = (gcnew System::Windows::Forms::TextBox());
+			this->queryVideoLoadButton = (gcnew System::Windows::Forms::Button());
+			this->queryButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->metricsBox0))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataVideoPlayButton
@@ -161,6 +171,7 @@ namespace VideoQuery {
 			this->queryVideoTrackBar->Name = L"queryVideoTrackBar";
 			this->queryVideoTrackBar->Size = System::Drawing::Size(352, 45);
 			this->queryVideoTrackBar->TabIndex = 7;
+			this->queryVideoTrackBar->Scroll += gcnew System::EventHandler(this, &MainWindow::queryVideoTrackBar_Scroll);
 			// 
 			// dataVideoTrackBar
 			// 
@@ -182,11 +193,57 @@ namespace VideoQuery {
 			this->dataVideoLoadButton->UseVisualStyleBackColor = true;
 			this->dataVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::dataVideoLoadButton_Click);
 			// 
+			// metricsBox0
+			// 
+			this->metricsBox0->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->metricsBox0->Location = System::Drawing::Point(885, 45);
+			this->metricsBox0->Name = L"metricsBox0";
+			this->metricsBox0->Size = System::Drawing::Size(300, 100);
+			this->metricsBox0->TabIndex = 10;
+			this->metricsBox0->TabStop = false;
+			// 
+			// queryVideoNameText
+			// 
+			this->queryVideoNameText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->queryVideoNameText->Location = System::Drawing::Point(37, 441);
+			this->queryVideoNameText->Name = L"queryVideoNameText";
+			this->queryVideoNameText->Size = System::Drawing::Size(352, 24);
+			this->queryVideoNameText->TabIndex = 11;
+			this->queryVideoNameText->Text = L"first";
+			// 
+			// queryVideoLoadButton
+			// 
+			this->queryVideoLoadButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->queryVideoLoadButton->Location = System::Drawing::Point(95, 497);
+			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
+			this->queryVideoLoadButton->Size = System::Drawing::Size(75, 32);
+			this->queryVideoLoadButton->TabIndex = 12;
+			this->queryVideoLoadButton->Text = L"Load";
+			this->queryVideoLoadButton->UseVisualStyleBackColor = true;
+			this->queryVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::queryVideoLoadButton_Click);
+			// 
+			// queryButton
+			// 
+			this->queryButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->queryButton->Location = System::Drawing::Point(254, 497);
+			this->queryButton->Name = L"queryButton";
+			this->queryButton->Size = System::Drawing::Size(75, 32);
+			this->queryButton->TabIndex = 13;
+			this->queryButton->Text = L"Query";
+			this->queryButton->UseVisualStyleBackColor = true;
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->queryButton);
+			this->Controls->Add(this->queryVideoLoadButton);
+			this->Controls->Add(this->queryVideoNameText);
+			this->Controls->Add(this->metricsBox0);
 			this->Controls->Add(this->dataVideoLoadButton);
 			this->Controls->Add(this->dataVideoTrackBar);
 			this->Controls->Add(this->queryVideoTrackBar);
@@ -206,6 +263,7 @@ namespace VideoQuery {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->metricsBox0))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -213,12 +271,16 @@ namespace VideoQuery {
 #pragma endregion
 	private:
 		Data data;
+		System::Void setMetricsBox(int* arr, int size);
 
 	private:
 		System::Void dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e);
 		System::Void queryVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e);
 		System::Void dataVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e);
 		System::Void dataVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+		System::Void queryVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
+		System::Void queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e);
+		
 };
 
 }

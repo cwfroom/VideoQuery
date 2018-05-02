@@ -46,14 +46,34 @@ System::Void MainWindow::dataVideoPlayButton_Click(System::Object^  sender, Syst
 	}
 
 }
+
+System::Void  MainWindow::queryVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
+	data.queryVideo->SeekVideo(queryVideoTrackBar->Value);
+}
+
 System::Void MainWindow::dataVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
 	data.dataVideo->SeekVideo(dataVideoTrackBar->Value);
 }
 
 System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	data.LoadQueryVideo(queryFrames, "query_videos\\query", "first");
+	if (queryVideoPlayButton->Text == "Play") {
+		data.queryVideo->PlayVideo();
+	}else{
+		data.queryVideo->PauseVideo();
+	}
+
+}
+
+System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (queryVideoNameText->Text != "") {
+		data.LoadQueryVideo(queryFrames, "query_videos\\query", queryVideoNameText->Text);
+	}
 }
 
 System::Void MainWindow::dataVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	data.LoadDataVideo(dataFrames, "database_videos", static_cast<String^>(dataVideoListBox->SelectedItem));
+}
+
+System::Void MainWindow::setMetricsBox(int* arr,int size){
+
 }
