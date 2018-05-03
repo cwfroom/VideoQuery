@@ -28,7 +28,12 @@ namespace VideoQuery{
 			void GenerateDatabaseMetrics(int dataFrameCount);
 			void ComputeAccuracy();
 			array<String^>^ GetSortedAccuracyStrings();
-			Eigen::VectorXf getPerFrameAccuracy();
+			Eigen::VectorXf getAccuracyHelper(array<Eigen::ArrayXXf*>^);
+			Eigen::VectorXf getPerFrameAccuracy() { return getAccuracyHelper(dataPerFrameAccuracy); }
+			Eigen::VectorXf getColorAccuracy() { return getAccuracyHelper(dataColorAccuracy); }
+			Eigen::VectorXf getMotionAccuracy() { return getAccuracyHelper(dataMotionAccuracy); }
+			Eigen::VectorXf getAudioAccuracy() { return getAccuracyHelper(dataAudioAccuracy); }
+
 
 		public:
 			array<String^>^ dataVideoList;
@@ -40,6 +45,9 @@ namespace VideoQuery{
 			array<int>^ dataStartFrames;
 			array<float>^ dataMaxAccuracy;
 			array<Eigen::ArrayXXf*>^ dataPerFrameAccuracy;
+			array<Eigen::ArrayXXf*>^ dataColorAccuracy;
+			array<Eigen::ArrayXXf*>^ dataMotionAccuracy;
+			array<Eigen::ArrayXXf*>^ dataAudioAccuracy;
 
 			Metrics^ queryMetric;
 			int lastSelectedIndex;

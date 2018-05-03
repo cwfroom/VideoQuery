@@ -103,29 +103,44 @@ System::Void MainWindow::dataVideoLoadButton_Click(System::Object^  sender, Syst
 	// dataVideoListBox loads and has indices of dataVideoListBox
 	data.SwapDataVideo(dataVideoListBox->SelectedIndex);
 	dataVideoLabel->Text = dataVideoListBox->SelectedItem->ToString();
-	metricsBox0->Refresh();
+	perFrameBox->Refresh();
+	colorAccuracyBox->Refresh();
+	motionAccuracyBox->Refresh();
+	audioAccuracyBox->Refresh();
 }
 
-System::Void MainWindow::metricsBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-	// Create a local version of the graphics object for the PictureBox.
-	Graphics^ g = e->Graphics;
-
+System::Void MainWindow::paintHelper(Graphics^ g, Eigen::VectorXf vec) {
 	// Clear
 	g->Clear(Color::SlateGray);
 
 	// Draw the visualization
-	Eigen::VectorXf perframeAccuracy = data.getPerFrameAccuracy();
-	if (perframeAccuracy.rows() > 1) {
-		int prev_y = perframeAccuracy(0);
-		for (int x = 1; x < perframeAccuracy.rows(); x++) {
-			int y = perframeAccuracy(x) * 100.0;
+	if (vec.rows() > 1) {
+		int prev_y = vec(0);
+		for (int x = 1; x < vec.rows(); x++) {
+			int y = vec(x) * 100.0;
 			// (0,0) is top left
 			g->DrawLine(System::Drawing::Pens::Red,
-				(x-1)*2, 100-prev_y,
-				x*2, 100-y);
+				(x - 1) * 2, 100 - prev_y,
+				x * 2, 100 - y);
 			prev_y = y;
 		}
 	}
+}
+
+System::Void MainWindow::perFrameBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	paintHelper(e->Graphics, data.getPerFrameAccuracy());
+}
+
+System::Void MainWindow::colorAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	paintHelper(e->Graphics, data.getColorAccuracy());
+}
+
+System::Void MainWindow::motionAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	paintHelper(e->Graphics, data.getMotionAccuracy());
+}
+
+System::Void MainWindow::audioAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	paintHelper(e->Graphics, data.getAudioAccuracy());
 }
 
 System::Void MainWindow::setMetricsBox(int* arr,int size){

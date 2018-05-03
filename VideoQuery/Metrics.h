@@ -47,6 +47,9 @@ private:
 	Metrics^ query;
 
 	// To be filled in by Accuracy()
+	Eigen::ArrayXXf* colorAccuracy;
+	Eigen::ArrayXXf* motionAccuracy;
+	Eigen::ArrayXXf* audioAccuracy;
 	Eigen::ArrayXXf* perFrameAccuracy;
 	int maxStartFrame;
 	float maxAccuracy;
@@ -80,6 +83,9 @@ public:
 	int GetMaxStartFrame() { return maxStartFrame; }
 	float GetMaxAccuracy() { return maxAccuracy; }
 	Eigen::ArrayXXf* GetPerFrameAccuracy() { return perFrameAccuracy; }
+	Eigen::ArrayXXf* GetColorAccuracy() { return colorAccuracy; }
+	Eigen::ArrayXXf* GetMotionAccuracy() { return motionAccuracy; }
+	Eigen::ArrayXXf* GetAudioAccuracy() { return audioAccuracy;  }
 };
 
 #endif // ! METRICS_H

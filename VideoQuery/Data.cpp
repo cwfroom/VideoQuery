@@ -20,11 +20,17 @@ VideoQuery::Data::Data() {
 	dataStartFrames = gcnew array<int>(dataVideoList->Length);
 	dataMaxAccuracy = gcnew array<float>(dataVideoList->Length);
 	dataPerFrameAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
+	dataColorAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
+	dataMotionAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
+	dataAudioAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
 	displayToVideoListMapping = gcnew array<int>(dataVideoList->Length);
 	for (int i = 0; i < dataVideoList->Length; i++) {
 		dataStartFrames[i] = 0;
 		displayToVideoListMapping[i] = i;
 		dataPerFrameAccuracy[i] = NULL;
+		dataColorAccuracy[i] = NULL;
+		dataMotionAccuracy[i] = NULL;
+		dataAudioAccuracy[i] = NULL;
 	}
 }
 
@@ -52,11 +58,11 @@ array<String^>^ VideoQuery::Data::GetSortedAccuracyStrings() {
 	return strs;
 }
 
-Eigen::VectorXf VideoQuery::Data::getPerFrameAccuracy() {
-	if (lastSelectedIndex != -1 && dataPerFrameAccuracy[lastSelectedIndex] != NULL) {
+Eigen::VectorXf VideoQuery::Data::getAccuracyHelper(array<Eigen::ArrayXXf*>^ arr) {
+	if (lastSelectedIndex != -1 && arr[lastSelectedIndex] != NULL) {
 		Eigen::VectorXf accuracy = Eigen::Map<Eigen::VectorXf>(
-			dataPerFrameAccuracy[lastSelectedIndex]->data(),
-			dataPerFrameAccuracy[lastSelectedIndex]->rows() * dataPerFrameAccuracy[lastSelectedIndex]->cols());
+			arr[lastSelectedIndex]->data(),
+			arr[lastSelectedIndex]->rows() * arr[lastSelectedIndex]->cols());
 		return accuracy;
 	}
 	else {
@@ -90,6 +96,9 @@ void VideoQuery::Data::ComputeAccuracy() {
 		dataMaxAccuracy[i] = dataMetrics[i]->GetMaxAccuracy();
 		dataStartFrames[i] = dataMetrics[i]->GetMaxStartFrame();
 		dataPerFrameAccuracy[i] = dataMetrics[i]->GetPerFrameAccuracy();
+		dataColorAccuracy[i] = dataMetrics[i]->GetColorAccuracy();
+		dataMotionAccuracy[i] = dataMetrics[i]->GetMotionAccuracy();
+		dataAudioAccuracy[i] = dataMetrics[i]->GetAudioAccuracy();
 	}
 
 	// Compute mapping between dataVideoList and accuracy list

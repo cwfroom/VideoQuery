@@ -26,6 +26,15 @@ Metrics::~Metrics()
 	if (perFrameAccuracy != NULL) {
 		delete perFrameAccuracy;
 	}
+	if (colorAccuracy != NULL) {
+		delete colorAccuracy;
+	}
+	if (motionAccuracy != NULL) {
+		delete motionAccuracy;
+	}
+	if (audioAccuracy != NULL) {
+		delete audioAccuracy;
+	}
 }
 
 void Metrics::SetVideo(Video^ video) {
@@ -389,9 +398,9 @@ void Metrics::Accuracy() {
 	 *
 	 * accf is the value of the highest total accuracy
 	 */
-	float color_weight = 0.4,
-		motion_weight = 0.3,
-		audio_weight = 0.3;
+	float color_weight = 0.0,
+		motion_weight = 1.0,
+		audio_weight = 0.0;
 	
 	Eigen::ArrayXXf coloracc;
 	ColorAccuracy(query, coloracc);
@@ -417,6 +426,12 @@ void Metrics::Accuracy() {
 	// Get start frame with largest mean accuracy
 	Eigen::ArrayXXf::Index max_i, max_j;
 	maxAccuracy = meanacc.maxCoeff(&max_i, &max_j);
+
+	// Copy accuracy arrays 
+	colorAccuracy = new Eigen::ArrayXXf(coloracc.col(max_j));
+	motionAccuracy = new Eigen::ArrayXXf(motionacc.col(max_j));
+	audioAccuracy = new Eigen::ArrayXXf(audioacc.col(max_j));
+
 
 	// Set per-frame accuracy beginning at start frame
 	if (perFrameAccuracy != NULL) {

@@ -40,11 +40,25 @@ namespace VideoQuery {
 	private: System::Windows::Forms::TrackBar^  queryVideoTrackBar;
 	private: System::Windows::Forms::TrackBar^  dataVideoTrackBar;
 	private: System::Windows::Forms::Button^  dataVideoLoadButton;
-	private: System::Windows::Forms::PictureBox^  metricsBox0;
+	private: System::Windows::Forms::PictureBox^  perFrameBox;
+
 	private: System::Windows::Forms::TextBox^  queryVideoNameText;
 	private: System::Windows::Forms::Button^  queryVideoLoadButton;
 	private: System::Windows::Forms::Button^  playBothButton;
 	private: System::Windows::Forms::CheckBox^  underscoreCheck;
+	private: System::Windows::Forms::Label^  perFrameLabel;
+	private: System::Windows::Forms::Label^  colorAccuracyLabel;
+	private: System::Windows::Forms::PictureBox^  colorAccuracyBox;
+	private: System::Windows::Forms::Label^  motionAccuracyLabel;
+	private: System::Windows::Forms::PictureBox^  motionAccuracyBox;
+	private: System::Windows::Forms::Label^  audioAccuracyLabel;
+	private: System::Windows::Forms::PictureBox^  audioAccuracyBox;
+
+
+
+
+
+
 
 
 
@@ -81,16 +95,26 @@ namespace VideoQuery {
 			this->queryVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
 			this->dataVideoTrackBar = (gcnew System::Windows::Forms::TrackBar());
 			this->dataVideoLoadButton = (gcnew System::Windows::Forms::Button());
-			this->metricsBox0 = (gcnew System::Windows::Forms::PictureBox());
+			this->perFrameBox = (gcnew System::Windows::Forms::PictureBox());
 			this->queryVideoNameText = (gcnew System::Windows::Forms::TextBox());
 			this->queryVideoLoadButton = (gcnew System::Windows::Forms::Button());
 			this->playBothButton = (gcnew System::Windows::Forms::Button());
 			this->underscoreCheck = (gcnew System::Windows::Forms::CheckBox());
+			this->perFrameLabel = (gcnew System::Windows::Forms::Label());
+			this->colorAccuracyLabel = (gcnew System::Windows::Forms::Label());
+			this->colorAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
+			this->motionAccuracyLabel = (gcnew System::Windows::Forms::Label());
+			this->motionAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
+			this->audioAccuracyLabel = (gcnew System::Windows::Forms::Label());
+			this->audioAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->metricsBox0))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->perFrameBox))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorAccuracyBox))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionAccuracyBox))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioAccuracyBox))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataVideoPlayButton
@@ -196,23 +220,23 @@ namespace VideoQuery {
 			this->dataVideoLoadButton->UseVisualStyleBackColor = true;
 			this->dataVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::dataVideoLoadButton_Click);
 			// 
-			// metricsBox0
+			// perFrameBox
 			// 
-			this->metricsBox0->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->metricsBox0->Location = System::Drawing::Point(885, 45);
-			this->metricsBox0->Name = L"metricsBox0";
-			this->metricsBox0->Size = System::Drawing::Size(300, 100);
-			this->metricsBox0->TabIndex = 10;
-			this->metricsBox0->TabStop = false;
-			this->metricsBox0->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::metricsBox_Paint);
+			this->perFrameBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->perFrameBox->Location = System::Drawing::Point(893, 45);
+			this->perFrameBox->Name = L"perFrameBox";
+			this->perFrameBox->Size = System::Drawing::Size(300, 100);
+			this->perFrameBox->TabIndex = 10;
+			this->perFrameBox->TabStop = false;
+			this->perFrameBox->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::perFrameBox_Paint);
 			// 
 			// queryVideoNameText
 			// 
-			this->queryVideoNameText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->queryVideoNameText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->queryVideoNameText->Location = System::Drawing::Point(37, 441);
 			this->queryVideoNameText->Name = L"queryVideoNameText";
-			this->queryVideoNameText->Size = System::Drawing::Size(352, 24);
+			this->queryVideoNameText->Size = System::Drawing::Size(352, 26);
 			this->queryVideoNameText->TabIndex = 11;
 			this->queryVideoNameText->Text = L"first";
 			// 
@@ -222,9 +246,9 @@ namespace VideoQuery {
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->queryVideoLoadButton->Location = System::Drawing::Point(151, 521);
 			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
-			this->queryVideoLoadButton->Size = System::Drawing::Size(75, 32);
+			this->queryVideoLoadButton->Size = System::Drawing::Size(84, 32);
 			this->queryVideoLoadButton->TabIndex = 12;
-			this->queryVideoLoadButton->Text = L"Load";
+			this->queryVideoLoadButton->Text = L"Query";
 			this->queryVideoLoadButton->UseVisualStyleBackColor = true;
 			this->queryVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::queryVideoLoadButton_Click);
 			// 
@@ -243,23 +267,106 @@ namespace VideoQuery {
 			// underscoreCheck
 			// 
 			this->underscoreCheck->AutoSize = true;
+			this->underscoreCheck->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->underscoreCheck->Location = System::Drawing::Point(37, 481);
 			this->underscoreCheck->Name = L"underscoreCheck";
-			this->underscoreCheck->Size = System::Drawing::Size(137, 17);
+			this->underscoreCheck->Size = System::Drawing::Size(195, 24);
 			this->underscoreCheck->TabIndex = 15;
 			this->underscoreCheck->Text = L"Underscore in file name";
 			this->underscoreCheck->UseVisualStyleBackColor = true;
+			// 
+			// perFrameLabel
+			// 
+			this->perFrameLabel->AutoSize = true;
+			this->perFrameLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->perFrameLabel->Location = System::Drawing::Point(889, 22);
+			this->perFrameLabel->Name = L"perFrameLabel";
+			this->perFrameLabel->Size = System::Drawing::Size(83, 20);
+			this->perFrameLabel->TabIndex = 16;
+			this->perFrameLabel->Text = L"Per Frame";
+			// 
+			// colorAccuracyLabel
+			// 
+			this->colorAccuracyLabel->AutoSize = true;
+			this->colorAccuracyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->colorAccuracyLabel->Location = System::Drawing::Point(889, 178);
+			this->colorAccuracyLabel->Name = L"colorAccuracyLabel";
+			this->colorAccuracyLabel->Size = System::Drawing::Size(115, 20);
+			this->colorAccuracyLabel->TabIndex = 17;
+			this->colorAccuracyLabel->Text = L"Color Accuracy";
+			// 
+			// colorAccuracyBox
+			// 
+			this->colorAccuracyBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->colorAccuracyBox->Location = System::Drawing::Point(893, 201);
+			this->colorAccuracyBox->Name = L"colorAccuracyBox";
+			this->colorAccuracyBox->Size = System::Drawing::Size(300, 100);
+			this->colorAccuracyBox->TabIndex = 18;
+			this->colorAccuracyBox->TabStop = false;
+			this->colorAccuracyBox->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::colorAccuracyBox_Paint);
+			// 
+			// motionAccuracyLabel
+			// 
+			this->motionAccuracyLabel->AutoSize = true;
+			this->motionAccuracyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+			this->motionAccuracyLabel->Location = System::Drawing::Point(889, 329);
+			this->motionAccuracyLabel->Name = L"motionAccuracyLabel";
+			this->motionAccuracyLabel->Size = System::Drawing::Size(126, 20);
+			this->motionAccuracyLabel->TabIndex = 19;
+			this->motionAccuracyLabel->Text = L"Motion Accuracy";
+			// 
+			// motionAccuracyBox
+			// 
+			this->motionAccuracyBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->motionAccuracyBox->Location = System::Drawing::Point(893, 352);
+			this->motionAccuracyBox->Name = L"motionAccuracyBox";
+			this->motionAccuracyBox->Size = System::Drawing::Size(300, 100);
+			this->motionAccuracyBox->TabIndex = 20;
+			this->motionAccuracyBox->TabStop = false;
+			this->motionAccuracyBox->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::motionAccuracyBox_Paint);
+			// 
+			// audioAccuracyLabel
+			// 
+			this->audioAccuracyLabel->AutoSize = true;
+			this->audioAccuracyLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->audioAccuracyLabel->Location = System::Drawing::Point(889, 481);
+			this->audioAccuracyLabel->Name = L"audioAccuracyLabel";
+			this->audioAccuracyLabel->Size = System::Drawing::Size(119, 20);
+			this->audioAccuracyLabel->TabIndex = 21;
+			this->audioAccuracyLabel->Text = L"Audio Accuracy";
+			// 
+			// audioAccuracyBox
+			// 
+			this->audioAccuracyBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->audioAccuracyBox->Location = System::Drawing::Point(893, 504);
+			this->audioAccuracyBox->Name = L"audioAccuracyBox";
+			this->audioAccuracyBox->Size = System::Drawing::Size(300, 100);
+			this->audioAccuracyBox->TabIndex = 22;
+			this->audioAccuracyBox->TabStop = false;
+			this->audioAccuracyBox->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::audioAccuracyBox_Paint);
 			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->audioAccuracyBox);
+			this->Controls->Add(this->audioAccuracyLabel);
+			this->Controls->Add(this->motionAccuracyBox);
+			this->Controls->Add(this->motionAccuracyLabel);
+			this->Controls->Add(this->colorAccuracyBox);
+			this->Controls->Add(this->colorAccuracyLabel);
+			this->Controls->Add(this->perFrameLabel);
 			this->Controls->Add(this->underscoreCheck);
 			this->Controls->Add(this->playBothButton);
 			this->Controls->Add(this->queryVideoLoadButton);
 			this->Controls->Add(this->queryVideoNameText);
-			this->Controls->Add(this->metricsBox0);
+			this->Controls->Add(this->perFrameBox);
 			this->Controls->Add(this->dataVideoLoadButton);
 			this->Controls->Add(this->dataVideoTrackBar);
 			this->Controls->Add(this->queryVideoTrackBar);
@@ -279,7 +386,10 @@ namespace VideoQuery {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoTrackBar))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->metricsBox0))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->perFrameBox))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorAccuracyBox))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionAccuracyBox))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioAccuracyBox))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -288,7 +398,11 @@ namespace VideoQuery {
 	private:
 		Data data;
 		System::Void setMetricsBox(int* arr, int size);
-		System::Void metricsBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
+		System::Void paintHelper(Graphics^ g, Eigen::VectorXf vec);
+		System::Void perFrameBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
+		System::Void colorAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
+		System::Void motionAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
+		System::Void audioAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
 
 	private:
 		System::Void dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e);
