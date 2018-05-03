@@ -35,7 +35,7 @@ void Video::LoadVideo() {
 	images.Clear();
 	playbackTimer->Stop();
 	String^ path = folder + "\\" + name;
-	
+	Console::WriteLine("Loading " + path);
 	for (int i = 1; i <= frameCount; i++) {
 		char numchar[4];
 		snprintf(numchar, 4, "%03d", i);
@@ -69,6 +69,7 @@ void Video::LoadVideo() {
 	String^ audioFilePath = GetAudioFilePath();
 	audioPlayer->LoadAudio(static_cast<char*>(Marshal::StringToHGlobalAnsi(audioFilePath).ToPointer()));
 	UpdateLabel(name + " loaded");
+	Console::WriteLine("Finished loading " + path);
 	if (this->display) {
 		display->Image = dynamic_cast<Image^>(images[0]);
 	}

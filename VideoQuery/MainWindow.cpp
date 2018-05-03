@@ -8,17 +8,17 @@ using namespace VideoQuery;
 
 #define queryFrames 150
 #define dataFrames 600
-#define LOAD_DATABASE_METRICS 1		// 1 to read metrics from disk; 0 to generate and dump
+#define LOAD_DATABASE_METRICS 1	// 1 to read metrics from disk; 0 to generate and dump
 
 [STAThreadAttribute]
 void Main(array<String^>^ args) {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0) return;
 	if (Mix_OpenAudio(44100, AUDIO_S16LSB, 2, 4096) < 0) return;
+	//Attach a console for debugging
+	RedirectIOToConsole();
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	VideoQuery::MainWindow form;
-	//Attach a console for debugging
-	RedirectIOToConsole();
 	Application::Run(%form);
 	SDL_Quit();
 }
@@ -83,8 +83,21 @@ System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, Sys
 	}
 }
 
+
+System::Void MainWindow::playBothButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (playBothButton->Text == "Play Both") {
+		playBothButton->Text == "Pause Both";
+	}
+	else {
+		playBothButton->Text = "Play Both";
+	}
+	queryVideoPlayButton_Click(sender, e);
+	dataVideoPlayButton_Click(sender, e);
+}
+
 System::Void MainWindow::dataVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	// dataVideoListBox loads and has indices of dataVideoListBox
+	dataVideoLabel->Text = dataVideoListBox->SelectedItem->ToString();
 	data.SwapDataVideo(dataVideoListBox->SelectedIndex);
 }
 

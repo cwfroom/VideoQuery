@@ -43,8 +43,9 @@ namespace VideoQuery {
 	private: System::Windows::Forms::PictureBox^  metricsBox0;
 	private: System::Windows::Forms::TextBox^  queryVideoNameText;
 	private: System::Windows::Forms::Button^  queryVideoLoadButton;
+	private: System::Windows::Forms::Button^  playBothButton;
 
-	private: System::Windows::Forms::Button^  queryButton;
+
 
 
 
@@ -82,7 +83,7 @@ namespace VideoQuery {
 			this->metricsBox0 = (gcnew System::Windows::Forms::PictureBox());
 			this->queryVideoNameText = (gcnew System::Windows::Forms::TextBox());
 			this->queryVideoLoadButton = (gcnew System::Windows::Forms::Button());
-			this->queryButton = (gcnew System::Windows::Forms::Button());
+			this->playBothButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
@@ -216,7 +217,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoLoadButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoLoadButton->Location = System::Drawing::Point(95, 497);
+			this->queryVideoLoadButton->Location = System::Drawing::Point(151, 497);
 			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
 			this->queryVideoLoadButton->Size = System::Drawing::Size(75, 32);
 			this->queryVideoLoadButton->TabIndex = 12;
@@ -224,23 +225,24 @@ namespace VideoQuery {
 			this->queryVideoLoadButton->UseVisualStyleBackColor = true;
 			this->queryVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::queryVideoLoadButton_Click);
 			// 
-			// queryButton
+			// playBothButton
 			// 
-			this->queryButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->playBothButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->queryButton->Location = System::Drawing::Point(254, 497);
-			this->queryButton->Name = L"queryButton";
-			this->queryButton->Size = System::Drawing::Size(75, 32);
-			this->queryButton->TabIndex = 13;
-			this->queryButton->Text = L"Query";
-			this->queryButton->UseVisualStyleBackColor = true;
+			this->playBothButton->Location = System::Drawing::Point(365, 390);
+			this->playBothButton->Name = L"playBothButton";
+			this->playBothButton->Size = System::Drawing::Size(105, 32);
+			this->playBothButton->TabIndex = 14;
+			this->playBothButton->Text = L"Play Both";
+			this->playBothButton->UseVisualStyleBackColor = true;
+			this->playBothButton->Click += gcnew System::EventHandler(this, &MainWindow::playBothButton_Click);
 			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
-			this->Controls->Add(this->queryButton);
+			this->Controls->Add(this->playBothButton);
 			this->Controls->Add(this->queryVideoLoadButton);
 			this->Controls->Add(this->queryVideoNameText);
 			this->Controls->Add(this->metricsBox0);
@@ -280,7 +282,7 @@ namespace VideoQuery {
 		System::Void dataVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 		System::Void queryVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 		System::Void queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e);
-		
+		System::Void playBothButton_Click(System::Object^  sender, System::EventArgs^  e);
 };
 
 }

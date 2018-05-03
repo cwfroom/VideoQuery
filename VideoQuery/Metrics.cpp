@@ -127,10 +127,13 @@ void Metrics::Compute() {
 	}
 	// for each frame, compute all metrics
 	this->frames = video->GetFrameCount();
-
+	Console::WriteLine("Computing Color Metrics");
 	ComputeColorMetric();
+	Console::WriteLine("Computing Audio Metrics");
 	ComputeAudioMetric();
+	Console::WriteLine("Computing Motion Metrics");
 	ComputeMotionMetric();
+	Console::WriteLine("Finished computing metrics")
 }
 
 void Metrics::ComputeColorMetric() {
