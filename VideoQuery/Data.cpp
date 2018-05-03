@@ -43,10 +43,9 @@ void VideoQuery::Data::LoadDataVideo(int frameCount, String^ folder, String^ nam
 
 void VideoQuery::Data::LoadQueryVideo(int frameCount, String^ folder, String^ name) {	
 	queryVideo->SetVideo(frameCount, folder, name);
-	queryVideo->LoadVideo();
-	if (queryVideo->IsLoaded()) {
-		ComputeAccuracy();
-	}
+	ThreadStart^ queryVideoLoadThreadDelegate = gcnew ThreadStart(queryVideo, &Video::LoadVideo);
+	Thread^ queryVideoLoadThread = gcnew Thread(queryVideoLoadThreadDelegate);
+	queryVideoLoadThread->Start();
 }
 
 array<String^>^ VideoQuery::Data::GetSortedAccuracyStrings() {
@@ -71,6 +70,10 @@ Eigen::VectorXf VideoQuery::Data::getAccuracyHelper(array<Eigen::ArrayXXf*>^ arr
 }
 
 void VideoQuery::Data::ComputeAccuracy() {
+	if (!queryVideo->IsLoaded()) {
+		return;
+	}
+
 	/* Compute metric for query video, then compute accuracy against all database metrics */
 
 	// Compute metric for video 

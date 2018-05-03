@@ -53,6 +53,7 @@ namespace VideoQuery {
 	private: System::Windows::Forms::PictureBox^  motionAccuracyBox;
 	private: System::Windows::Forms::Label^  audioAccuracyLabel;
 	private: System::Windows::Forms::PictureBox^  audioAccuracyBox;
+	private: System::Windows::Forms::Button^  queryButton;
 
 
 
@@ -107,6 +108,7 @@ namespace VideoQuery {
 			this->motionAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
 			this->audioAccuracyLabel = (gcnew System::Windows::Forms::Label());
 			this->audioAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
+			this->queryButton = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
@@ -244,11 +246,11 @@ namespace VideoQuery {
 			// 
 			this->queryVideoLoadButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoLoadButton->Location = System::Drawing::Point(151, 521);
+			this->queryVideoLoadButton->Location = System::Drawing::Point(71, 511);
 			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
 			this->queryVideoLoadButton->Size = System::Drawing::Size(84, 32);
 			this->queryVideoLoadButton->TabIndex = 12;
-			this->queryVideoLoadButton->Text = L"Query";
+			this->queryVideoLoadButton->Text = L"Load";
 			this->queryVideoLoadButton->UseVisualStyleBackColor = true;
 			this->queryVideoLoadButton->Click += gcnew System::EventHandler(this, &MainWindow::queryVideoLoadButton_Click);
 			// 
@@ -350,11 +352,24 @@ namespace VideoQuery {
 			this->audioAccuracyBox->TabStop = false;
 			this->audioAccuracyBox->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::audioAccuracyBox_Paint);
 			// 
+			// queryButton
+			// 
+			this->queryButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->queryButton->Location = System::Drawing::Point(216, 511);
+			this->queryButton->Name = L"queryButton";
+			this->queryButton->Size = System::Drawing::Size(84, 32);
+			this->queryButton->TabIndex = 23;
+			this->queryButton->Text = L"Query";
+			this->queryButton->UseVisualStyleBackColor = true;
+			this->queryButton->Click += gcnew System::EventHandler(this, &MainWindow::queryButton_Click);
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->queryButton);
 			this->Controls->Add(this->audioAccuracyBox);
 			this->Controls->Add(this->audioAccuracyLabel);
 			this->Controls->Add(this->motionAccuracyBox);
@@ -397,7 +412,6 @@ namespace VideoQuery {
 #pragma endregion
 	private:
 		Data data;
-		System::Void setMetricsBox(int* arr, int size);
 		System::Void paintHelper(Graphics^ g, Eigen::VectorXf vec);
 		System::Void perFrameBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
 		System::Void colorAccuracyBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
@@ -412,6 +426,7 @@ namespace VideoQuery {
 		System::Void queryVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e);
 		System::Void queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e);
 		System::Void playBothButton_Click(System::Object^  sender, System::EventArgs^  e);
+		System::Void queryButton_Click(System::Object^  sender, System::EventArgs^  e);
 };
 
 }

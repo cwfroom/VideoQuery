@@ -75,15 +75,8 @@ System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, Sys
 
 System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (queryVideoNameText->Text != "") {
-		dataVideoListBox->Items->Clear();
-		queryVideoLabel->Text = "Computing Accuracies ....";
-		data.LoadQueryVideo(queryFrames, "query_videos\\query", queryVideoNameText->Text);
 		data.queryVideo->SetUnderscore(underscoreCheck->Checked);
-		array<String^>^ accstrs = data.GetSortedAccuracyStrings();
-		for (int i = 0; i < accstrs->Length; i++) {
-			dataVideoListBox->Items->Add(accstrs[i]);
-		}
-		dataVideoListBox->SelectedIndex = 0;
+		data.LoadQueryVideo(queryFrames, "query_videos\\query", queryVideoNameText->Text);
 	}
 }
 
@@ -143,6 +136,13 @@ System::Void MainWindow::audioAccuracyBox_Paint(Object^ sender, System::Windows:
 	paintHelper(e->Graphics, data.getAudioAccuracy());
 }
 
-System::Void MainWindow::setMetricsBox(int* arr,int size){
-
+System::Void MainWindow::queryButton_Click(System::Object^  sender, System::EventArgs^  e) {
+	queryVideoLabel->Text = "Computing Accuracies";
+	dataVideoListBox->Items->Clear();
+	data.ComputeAccuracy();
+	array<String^>^ accstrs = data.GetSortedAccuracyStrings();
+	for (int i = 0; i < accstrs->Length; i++) {
+		dataVideoListBox->Items->Add(accstrs[i]);
+	}
+	dataVideoListBox->SelectedIndex = 0;
 }
