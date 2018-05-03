@@ -40,7 +40,7 @@ namespace VideoQuery {
 			void UpdateFrame(Object^ sender, ElapsedEventArgs^ e);
 			bool loaded;
 		private:
-			const float interval = 33.3333;
+			const float interval = 31;
 			int frameCount;
 			int currentFrame;
 			String^ folder;
