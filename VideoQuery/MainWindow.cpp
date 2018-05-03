@@ -44,13 +44,14 @@ MainWindow::MainWindow(void)
 
 
 System::Void MainWindow::dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (dataVideoPlayButton->Text == "Play") {
-		data.dataVideo->PlayVideo();
+	if (data.dataVideo->IsLoaded()) {
+		if (dataVideoPlayButton->Text == "Play") {
+			data.dataVideo->PlayVideo();
+		}
+		else {
+			data.dataVideo->PauseVideo();
+		}
 	}
-	else {
-		data.dataVideo->PauseVideo();
-	}
-
 }
 
 System::Void  MainWindow::queryVideoTrackBar_Scroll(System::Object^  sender, System::EventArgs^  e) {
@@ -62,12 +63,14 @@ System::Void MainWindow::dataVideoTrackBar_Scroll(System::Object^  sender, Syste
 }
 
 System::Void MainWindow::queryVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (queryVideoPlayButton->Text == "Play") {
-		data.queryVideo->PlayVideo();
-	}else{
-		data.queryVideo->PauseVideo();
+	if (data.queryVideo->IsLoaded()) {
+		if (queryVideoPlayButton->Text == "Play") {
+			data.queryVideo->PlayVideo();
+		}
+		else {
+			data.queryVideo->PauseVideo();
+		}
 	}
-
 }
 
 System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {

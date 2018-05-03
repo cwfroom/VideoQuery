@@ -24,6 +24,7 @@ VideoQuery::Data::Data() {
 	for (int i = 0; i < dataVideoList->Length; i++) {
 		dataStartFrames[i] = 0;
 		displayToVideoListMapping[i] = i;
+		dataPerFrameAccuracy[i] = NULL;
 	}
 }
 
@@ -37,8 +38,9 @@ void VideoQuery::Data::LoadDataVideo(int frameCount, String^ folder, String^ nam
 void VideoQuery::Data::LoadQueryVideo(int frameCount, String^ folder, String^ name) {	
 	queryVideo->SetVideo(frameCount, folder, name);
 	queryVideo->LoadVideo();
-
-	ComputeAccuracy();
+	if (queryVideo->IsLoaded()) {
+		ComputeAccuracy();
+	}
 }
 
 array<String^>^ VideoQuery::Data::GetSortedAccuracyStrings() {
@@ -51,7 +53,7 @@ array<String^>^ VideoQuery::Data::GetSortedAccuracyStrings() {
 }
 
 Eigen::VectorXf VideoQuery::Data::getPerFrameAccuracy() {
-	if (lastSelectedIndex != -1) {
+	if (lastSelectedIndex != -1 && dataPerFrameAccuracy[lastSelectedIndex] != NULL) {
 		Eigen::VectorXf accuracy = Eigen::Map<Eigen::VectorXf>(
 			dataPerFrameAccuracy[lastSelectedIndex]->data(),
 			dataPerFrameAccuracy[lastSelectedIndex]->rows() * dataPerFrameAccuracy[lastSelectedIndex]->cols());
