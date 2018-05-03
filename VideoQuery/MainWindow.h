@@ -202,6 +202,7 @@ namespace VideoQuery {
 			this->metricsBox0->Size = System::Drawing::Size(300, 100);
 			this->metricsBox0->TabIndex = 10;
 			this->metricsBox0->TabStop = false;
+			this->metricsBox0->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainWindow::metricsBox_Paint);
 			// 
 			// queryVideoNameText
 			// 
@@ -274,6 +275,7 @@ namespace VideoQuery {
 	private:
 		Data data;
 		System::Void setMetricsBox(int* arr, int size);
+		System::Void metricsBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e);
 
 	private:
 		System::Void dataVideoPlayButton_Click(System::Object^  sender, System::EventArgs^  e);

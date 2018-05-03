@@ -97,8 +97,30 @@ System::Void MainWindow::playBothButton_Click(System::Object^  sender, System::E
 
 System::Void MainWindow::dataVideoLoadButton_Click(System::Object^  sender, System::EventArgs^  e) {
 	// dataVideoListBox loads and has indices of dataVideoListBox
-	dataVideoLabel->Text = dataVideoListBox->SelectedItem->ToString();
 	data.SwapDataVideo(dataVideoListBox->SelectedIndex);
+	dataVideoLabel->Text = dataVideoListBox->SelectedItem->ToString();
+	metricsBox0->Refresh();
+}
+
+System::Void MainWindow::metricsBox_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+	// Create a local version of the graphics object for the PictureBox.
+	Graphics^ g = e->Graphics;
+
+	// Clear
+	g->Clear(Color::SlateGray);
+
+	// Draw the visualization
+	Eigen::VectorXf perframeAccuracy = data.getPerFrameAccuracy();
+	if (perframeAccuracy.rows() > 1) {
+		int prev_y = perframeAccuracy(0);
+		for (int x = 1; x < perframeAccuracy.rows(); x++) {
+			int y = perframeAccuracy(x) * 100.0;
+			g->DrawLine(System::Drawing::Pens::Red,
+				(x-1)*2, prev_y,
+				x*2, y);
+			prev_y = y;
+		}
+	}
 }
 
 System::Void MainWindow::setMetricsBox(int* arr,int size){

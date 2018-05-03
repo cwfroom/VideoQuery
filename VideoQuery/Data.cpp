@@ -16,6 +16,7 @@ VideoQuery::Data::Data() {
 	dataMetrics = gcnew array<Metrics^>(dataVideoList->Length);
 	dataVideos = gcnew array<Video^>(dataVideoList->Length);
 
+	lastSelectedIndex = -1;
 	dataStartFrames = gcnew array<int>(dataVideoList->Length);
 	dataMaxAccuracy = gcnew array<float>(dataVideoList->Length);
 	dataPerFrameAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
@@ -46,6 +47,18 @@ array<String^>^ VideoQuery::Data::GetSortedAccuracyStrings() {
 		strs[displayid] = dataVideoList[originalid] + " (" + (dataMaxAccuracy[originalid] * 100.0).ToString("0.0000") + ")";
 	}
 	return strs;
+}
+
+Eigen::VectorXf VideoQuery::Data::getPerFrameAccuracy() {
+	if (lastSelectedIndex != -1) {
+		Eigen::VectorXf accuracy = Eigen::Map<Eigen::VectorXf>(
+			dataPerFrameAccuracy[lastSelectedIndex]->data(),
+			dataPerFrameAccuracy[lastSelectedIndex]->rows() * dataPerFrameAccuracy[lastSelectedIndex]->cols());
+		return accuracy;
+	}
+	else {
+		return Eigen::VectorXf::Zero(1);
+	}
 }
 
 void VideoQuery::Data::ComputeAccuracy() {
@@ -94,6 +107,7 @@ void VideoQuery::Data::SwapDataVideo(int index) {
 	dataVideos[displayToVideoListMapping[index]]->CopyUI(dataVideo);
 	dataVideo = dataVideos[displayToVideoListMapping[index]];
 	dataVideo->SeekVideo(0);
+	lastSelectedIndex = index;
 }
 
 void VideoQuery::Data::LoadDatabaseMetrics(int dataFrameCount) {

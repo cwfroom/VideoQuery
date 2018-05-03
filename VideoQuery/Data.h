@@ -28,6 +28,7 @@ namespace VideoQuery{
 			void GenerateDatabaseMetrics(int dataFrameCount);
 			void ComputeAccuracy();
 			array<String^>^ GetSortedAccuracyStrings();
+			Eigen::VectorXf getPerFrameAccuracy();
 
 		public:
 			array<String^>^ dataVideoList;
@@ -41,6 +42,7 @@ namespace VideoQuery{
 			array<Eigen::ArrayXXf*>^ dataPerFrameAccuracy;
 
 			Metrics^ queryMetric;
+			int lastSelectedIndex;
 
 			Video^ queryVideo;
 			Video^ dataVideo;
