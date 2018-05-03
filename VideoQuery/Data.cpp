@@ -22,6 +22,7 @@ VideoQuery::Data::Data() {
 	dataPerFrameAccuracy = gcnew array<Eigen::ArrayXXf*>(dataVideoList->Length);
 	displayToVideoListMapping = gcnew array<int>(dataVideoList->Length);
 	for (int i = 0; i < dataVideoList->Length; i++) {
+		dataStartFrames[i] = 0;
 		displayToVideoListMapping[i] = i;
 	}
 }
@@ -106,7 +107,7 @@ void VideoQuery::Data::SwapDataVideo(int index) {
 	// index is the display index
 	dataVideos[displayToVideoListMapping[index]]->CopyUI(dataVideo);
 	dataVideo = dataVideos[displayToVideoListMapping[index]];
-	dataVideo->SeekVideo(0);
+	dataVideo->SeekVideo(dataStartFrames[displayToVideoListMapping[index]]);
 	lastSelectedIndex = index;
 }
 

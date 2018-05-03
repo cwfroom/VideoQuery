@@ -95,6 +95,7 @@ void Video::SeekVideo(int frame) {
 	PauseVideo();
 	currentFrame = frame;
 	display->Image = dynamic_cast<Image^>(images[frame]);
+	SetTrackBarValue(currentFrame);
 }
 
 void Video::UpdateFrame(Object^ sender, ElapsedEventArgs^ e) {
