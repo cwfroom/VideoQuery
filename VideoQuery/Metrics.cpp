@@ -7,10 +7,13 @@ Metrics::Metrics() :
 	audio_samples(NULL),
 	perFrameAccuracy(NULL)
 {
+	// Default weights are color 0.4, motion 0.3, audio 0.3;
+	weights = new float[3]{0.4f,0.3f,0.3f};
 }
 
 Metrics::~Metrics()
 {
+	delete weights;
 	if (dominant_color_frames != NULL) {
 		delete dominant_color_frames;
 	}
@@ -398,9 +401,7 @@ void Metrics::Accuracy() {
 	 *
 	 * accf is the value of the highest total accuracy
 	 */
-	float color_weight = 0.0,
-		motion_weight = 1.0,
-		audio_weight = 0.0;
+
 	
 	Eigen::ArrayXXf coloracc;
 	ColorAccuracy(query, coloracc);
@@ -419,9 +420,9 @@ void Metrics::Accuracy() {
 	
 	// Find weighted mean accuracies
 	Eigen::ArrayXXf meanacc =
-		coloracc_mean  * color_weight +
-		motionacc_mean * motion_weight +
-		audioacc_mean  * audio_weight;
+		coloracc_mean  * weights[0] +
+		motionacc_mean * weights[1] +
+		audioacc_mean  * weights[2];
 
 	// Get start frame with largest mean accuracy
 	Eigen::ArrayXXf::Index max_i, max_j;
@@ -438,9 +439,9 @@ void Metrics::Accuracy() {
 		delete perFrameAccuracy;
 	}
 	perFrameAccuracy = new Eigen::ArrayXXf(
-		coloracc.col(max_j) * color_weight +
-		motionacc.col(max_j) * motion_weight +
-		audioacc.col(max_j) * audio_weight);
+		coloracc.col(max_j) * weights[0] +
+		motionacc.col(max_j) * weights[1] +
+		audioacc.col(max_j) *  weights[2]);
 
 	// Set max start frame
 	maxStartFrame = (int) max_j;

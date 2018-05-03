@@ -61,6 +61,8 @@ private:
 	void MotionAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
 	void AudioAccuracy(Metrics^ query, Eigen::ArrayXXf& acc);
 
+	// Metric weights: color, motion, audio 
+	float* weights;
 
 public:
 	int audio_sample_rate;
@@ -76,6 +78,7 @@ public:
 
 	// Call accuracy functions with this as the database video, other as query video
 	void SetQuery(Metrics^ query);
+	void SetWeights(float colorWeight, float motionWeight, float audioWeight) { weights[0] = colorWeight; weights[1] = motionWeight; weights[2] = audioWeight;}
 	void Accuracy();
 
 	void BGRFromBitmap(Bitmap^ bitmap, cv::Mat& bgr);

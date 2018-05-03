@@ -137,9 +137,11 @@ System::Void MainWindow::audioAccuracyBox_Paint(Object^ sender, System::Windows:
 }
 
 System::Void MainWindow::queryButton_Click(System::Object^  sender, System::EventArgs^  e) {
-	queryVideoLabel->Text = "Computing Accuracies";
 	dataVideoListBox->Items->Clear();
-	data.ComputeAccuracy();
+	float colorWeight = (float)colorTrackBar->Value / 10.0f;
+	float motionWeight = (float)motionTrackBar->Value / 10.0f;
+	float audioWeight = (float)audioTrackBar->Value / 10.0f;
+	data.ComputeAccuracy(colorWeight,motionWeight,audioWeight);
 	array<String^>^ accstrs = data.GetSortedAccuracyStrings();
 	for (int i = 0; i < accstrs->Length; i++) {
 		dataVideoListBox->Items->Add(accstrs[i]);

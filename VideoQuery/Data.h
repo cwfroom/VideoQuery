@@ -26,7 +26,7 @@ namespace VideoQuery{
 			void SwapDataVideo(int index);
 			void LoadDatabaseMetrics(int dataFrameCount);
 			void GenerateDatabaseMetrics(int dataFrameCount);
-			void ComputeAccuracy();
+			void ComputeAccuracy(float colorWeight, float motionWeight, float audioWeight);
 			array<String^>^ GetSortedAccuracyStrings();
 			Eigen::VectorXf getAccuracyHelper(array<Eigen::ArrayXXf*>^);
 			Eigen::VectorXf getPerFrameAccuracy() { return getAccuracyHelper(dataPerFrameAccuracy); }

@@ -54,6 +54,15 @@ namespace VideoQuery {
 	private: System::Windows::Forms::Label^  audioAccuracyLabel;
 	private: System::Windows::Forms::PictureBox^  audioAccuracyBox;
 	private: System::Windows::Forms::Button^  queryButton;
+	private: System::Windows::Forms::TrackBar^  colorTrackBar;
+	private: System::Windows::Forms::TrackBar^  motionTrackBar;
+	private: System::Windows::Forms::TrackBar^  audioTrackBar;
+
+
+
+	private: System::Windows::Forms::Label^  colorLabel;
+	private: System::Windows::Forms::Label^  motionLabel;
+	private: System::Windows::Forms::Label^  audioLabel;
 
 
 
@@ -109,6 +118,12 @@ namespace VideoQuery {
 			this->audioAccuracyLabel = (gcnew System::Windows::Forms::Label());
 			this->audioAccuracyBox = (gcnew System::Windows::Forms::PictureBox());
 			this->queryButton = (gcnew System::Windows::Forms::Button());
+			this->colorTrackBar = (gcnew System::Windows::Forms::TrackBar());
+			this->motionTrackBar = (gcnew System::Windows::Forms::TrackBar());
+			this->audioTrackBar = (gcnew System::Windows::Forms::TrackBar());
+			this->colorLabel = (gcnew System::Windows::Forms::Label());
+			this->motionLabel = (gcnew System::Windows::Forms::Label());
+			this->audioLabel = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
@@ -117,13 +132,16 @@ namespace VideoQuery {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorAccuracyBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionAccuracyBox))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioAccuracyBox))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorTrackBar))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionTrackBar))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioTrackBar))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataVideoPlayButton
 			// 
 			this->dataVideoPlayButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->dataVideoPlayButton->Location = System::Drawing::Point(583, 390);
+			this->dataVideoPlayButton->Location = System::Drawing::Point(583, 388);
 			this->dataVideoPlayButton->Name = L"dataVideoPlayButton";
 			this->dataVideoPlayButton->Size = System::Drawing::Size(75, 32);
 			this->dataVideoPlayButton->TabIndex = 0;
@@ -153,7 +171,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoPlayButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoPlayButton->Location = System::Drawing::Point(151, 390);
+			this->queryVideoPlayButton->Location = System::Drawing::Point(157, 388);
 			this->queryVideoPlayButton->Name = L"queryVideoPlayButton";
 			this->queryVideoPlayButton->Size = System::Drawing::Size(75, 32);
 			this->queryVideoPlayButton->TabIndex = 3;
@@ -167,7 +185,7 @@ namespace VideoQuery {
 				static_cast<System::Byte>(0)));
 			this->dataVideoListBox->FormattingEnabled = true;
 			this->dataVideoListBox->ItemHeight = 20;
-			this->dataVideoListBox->Location = System::Drawing::Point(444, 441);
+			this->dataVideoListBox->Location = System::Drawing::Point(444, 447);
 			this->dataVideoListBox->Name = L"dataVideoListBox";
 			this->dataVideoListBox->Size = System::Drawing::Size(352, 184);
 			this->dataVideoListBox->TabIndex = 4;
@@ -236,7 +254,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoNameText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->queryVideoNameText->Location = System::Drawing::Point(37, 441);
+			this->queryVideoNameText->Location = System::Drawing::Point(46, 447);
 			this->queryVideoNameText->Name = L"queryVideoNameText";
 			this->queryVideoNameText->Size = System::Drawing::Size(352, 26);
 			this->queryVideoNameText->TabIndex = 11;
@@ -246,7 +264,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoLoadButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoLoadButton->Location = System::Drawing::Point(71, 511);
+			this->queryVideoLoadButton->Location = System::Drawing::Point(314, 479);
 			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
 			this->queryVideoLoadButton->Size = System::Drawing::Size(84, 32);
 			this->queryVideoLoadButton->TabIndex = 12;
@@ -258,7 +276,7 @@ namespace VideoQuery {
 			// 
 			this->playBothButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->playBothButton->Location = System::Drawing::Point(365, 390);
+			this->playBothButton->Location = System::Drawing::Point(365, 388);
 			this->playBothButton->Name = L"playBothButton";
 			this->playBothButton->Size = System::Drawing::Size(105, 32);
 			this->playBothButton->TabIndex = 14;
@@ -271,7 +289,7 @@ namespace VideoQuery {
 			this->underscoreCheck->AutoSize = true;
 			this->underscoreCheck->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->underscoreCheck->Location = System::Drawing::Point(37, 481);
+			this->underscoreCheck->Location = System::Drawing::Point(46, 479);
 			this->underscoreCheck->Name = L"underscoreCheck";
 			this->underscoreCheck->Size = System::Drawing::Size(195, 24);
 			this->underscoreCheck->TabIndex = 15;
@@ -356,7 +374,7 @@ namespace VideoQuery {
 			// 
 			this->queryButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->queryButton->Location = System::Drawing::Point(216, 511);
+			this->queryButton->Location = System::Drawing::Point(157, 637);
 			this->queryButton->Name = L"queryButton";
 			this->queryButton->Size = System::Drawing::Size(84, 32);
 			this->queryButton->TabIndex = 23;
@@ -364,11 +382,74 @@ namespace VideoQuery {
 			this->queryButton->UseVisualStyleBackColor = true;
 			this->queryButton->Click += gcnew System::EventHandler(this, &MainWindow::queryButton_Click);
 			// 
+			// colorTrackBar
+			// 
+			this->colorTrackBar->Location = System::Drawing::Point(94, 525);
+			this->colorTrackBar->Name = L"colorTrackBar";
+			this->colorTrackBar->Size = System::Drawing::Size(304, 45);
+			this->colorTrackBar->TabIndex = 24;
+			this->colorTrackBar->Value = 4;
+			// 
+			// motionTrackBar
+			// 
+			this->motionTrackBar->Location = System::Drawing::Point(94, 556);
+			this->motionTrackBar->Name = L"motionTrackBar";
+			this->motionTrackBar->Size = System::Drawing::Size(304, 45);
+			this->motionTrackBar->TabIndex = 25;
+			this->motionTrackBar->Value = 3;
+			// 
+			// audioTrackBar
+			// 
+			this->audioTrackBar->Location = System::Drawing::Point(94, 586);
+			this->audioTrackBar->Name = L"audioTrackBar";
+			this->audioTrackBar->Size = System::Drawing::Size(304, 45);
+			this->audioTrackBar->TabIndex = 26;
+			this->audioTrackBar->Value = 3;
+			// 
+			// colorLabel
+			// 
+			this->colorLabel->AutoSize = true;
+			this->colorLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->colorLabel->Location = System::Drawing::Point(42, 525);
+			this->colorLabel->Name = L"colorLabel";
+			this->colorLabel->Size = System::Drawing::Size(46, 20);
+			this->colorLabel->TabIndex = 27;
+			this->colorLabel->Text = L"Color";
+			// 
+			// motionLabel
+			// 
+			this->motionLabel->AutoSize = true;
+			this->motionLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->motionLabel->Location = System::Drawing::Point(42, 556);
+			this->motionLabel->Name = L"motionLabel";
+			this->motionLabel->Size = System::Drawing::Size(57, 20);
+			this->motionLabel->TabIndex = 28;
+			this->motionLabel->Text = L"Motion";
+			// 
+			// audioLabel
+			// 
+			this->audioLabel->AutoSize = true;
+			this->audioLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->audioLabel->Location = System::Drawing::Point(42, 586);
+			this->audioLabel->Name = L"audioLabel";
+			this->audioLabel->Size = System::Drawing::Size(50, 20);
+			this->audioLabel->TabIndex = 29;
+			this->audioLabel->Text = L"Audio";
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->audioLabel);
+			this->Controls->Add(this->motionLabel);
+			this->Controls->Add(this->colorLabel);
+			this->Controls->Add(this->audioTrackBar);
+			this->Controls->Add(this->motionTrackBar);
+			this->Controls->Add(this->colorTrackBar);
 			this->Controls->Add(this->queryButton);
 			this->Controls->Add(this->audioAccuracyBox);
 			this->Controls->Add(this->audioAccuracyLabel);
@@ -405,6 +486,9 @@ namespace VideoQuery {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorAccuracyBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionAccuracyBox))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioAccuracyBox))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->colorTrackBar))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->motionTrackBar))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->audioTrackBar))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

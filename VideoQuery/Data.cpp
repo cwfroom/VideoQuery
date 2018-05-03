@@ -69,7 +69,7 @@ Eigen::VectorXf VideoQuery::Data::getAccuracyHelper(array<Eigen::ArrayXXf*>^ arr
 	}
 }
 
-void VideoQuery::Data::ComputeAccuracy() {
+void VideoQuery::Data::ComputeAccuracy(float colorWeight,float motionWeight,float audioWeight) {
 	if (!queryVideo->IsLoaded()) {
 		return;
 	}
@@ -79,6 +79,7 @@ void VideoQuery::Data::ComputeAccuracy() {
 	// Compute metric for video 
 	queryMetric = gcnew Metrics();
 	queryMetric->SetVideo(queryVideo);
+	queryMetric->SetWeights(colorWeight, motionWeight, audioWeight);
 	queryMetric->Compute();
 
 	array<ThreadStart^>^ threaddeligates = gcnew array<ThreadStart^>(dataVideoList->Length);
