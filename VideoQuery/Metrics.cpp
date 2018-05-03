@@ -133,7 +133,7 @@ void Metrics::Compute() {
 	ComputeAudioMetric();
 	Console::WriteLine("Computing Motion Metrics");
 	ComputeMotionMetric();
-	Console::WriteLine("Finished computing metrics")
+	Console::WriteLine("Finished computing metrics");
 }
 
 void Metrics::ComputeColorMetric() {
