@@ -389,9 +389,9 @@ void Metrics::Accuracy() {
 	 *
 	 * accf is the value of the highest total accuracy
 	 */
-	float color_weight = 0.0,
-		motion_weight = 1.0,
-		audio_weight = 0.0;
+	float color_weight = 0.4,
+		motion_weight = 0.3,
+		audio_weight = 0.3;
 	
 	Eigen::ArrayXXf coloracc;
 	ColorAccuracy(query, coloracc);
