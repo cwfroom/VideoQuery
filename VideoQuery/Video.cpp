@@ -6,6 +6,7 @@ Video::Video(){
 	audioPlayer = new Audio();
 	playbackTimer = gcnew Timers::Timer(interval);
 	playbackTimer->Elapsed += gcnew ElapsedEventHandler(this,&Video::UpdateFrame);
+	hasUnderscore = false;
 }
 
 void Video::SetUI(PictureBox^ display, Label^ label, TrackBar^ trackBar, Button^ button) {
@@ -40,7 +41,13 @@ void Video::LoadVideo() {
 		char numchar[4];
 		snprintf(numchar, 4, "%03d", i);
 		String^ num = gcnew String(numchar);
-		String^ fileName = path + "\\" + name + num + ".rgb";
+		String^ fileName;
+		if (hasUnderscore) {
+			fileName = path + "\\" + name + "_" + num + ".rgb";
+		}
+		else {
+			fileName = path + "\\" + name + num + ".rgb";
+		}
 		UpdateLabel("Loading \"" + name + "\" " + "frame " +  i + "/" + frameCount);
 		MyImage rawImage;
 		rawImage.setImagePath(static_cast<char*>(Marshal::StringToHGlobalAnsi(fileName).ToPointer()));
@@ -151,5 +158,9 @@ void Video::SetTrackBarValue(int value) {
 		trackBar->Value = value;
 	}
 
+}
+
+void Video::SetUnderscore(bool b) {
+	hasUnderscore = b;
 }
 

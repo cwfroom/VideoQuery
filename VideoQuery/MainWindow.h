@@ -44,6 +44,7 @@ namespace VideoQuery {
 	private: System::Windows::Forms::TextBox^  queryVideoNameText;
 	private: System::Windows::Forms::Button^  queryVideoLoadButton;
 	private: System::Windows::Forms::Button^  playBothButton;
+	private: System::Windows::Forms::CheckBox^  underscoreCheck;
 
 
 
@@ -84,6 +85,7 @@ namespace VideoQuery {
 			this->queryVideoNameText = (gcnew System::Windows::Forms::TextBox());
 			this->queryVideoLoadButton = (gcnew System::Windows::Forms::Button());
 			this->playBothButton = (gcnew System::Windows::Forms::Button());
+			this->underscoreCheck = (gcnew System::Windows::Forms::CheckBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoImage))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->queryVideoTrackBar))->BeginInit();
@@ -218,7 +220,7 @@ namespace VideoQuery {
 			// 
 			this->queryVideoLoadButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->queryVideoLoadButton->Location = System::Drawing::Point(151, 497);
+			this->queryVideoLoadButton->Location = System::Drawing::Point(151, 521);
 			this->queryVideoLoadButton->Name = L"queryVideoLoadButton";
 			this->queryVideoLoadButton->Size = System::Drawing::Size(75, 32);
 			this->queryVideoLoadButton->TabIndex = 12;
@@ -238,11 +240,22 @@ namespace VideoQuery {
 			this->playBothButton->UseVisualStyleBackColor = true;
 			this->playBothButton->Click += gcnew System::EventHandler(this, &MainWindow::playBothButton_Click);
 			// 
+			// underscoreCheck
+			// 
+			this->underscoreCheck->AutoSize = true;
+			this->underscoreCheck->Location = System::Drawing::Point(37, 481);
+			this->underscoreCheck->Name = L"underscoreCheck";
+			this->underscoreCheck->Size = System::Drawing::Size(137, 17);
+			this->underscoreCheck->TabIndex = 15;
+			this->underscoreCheck->Text = L"Underscore in file name";
+			this->underscoreCheck->UseVisualStyleBackColor = true;
+			// 
 			// MainWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->underscoreCheck);
 			this->Controls->Add(this->playBothButton);
 			this->Controls->Add(this->queryVideoLoadButton);
 			this->Controls->Add(this->queryVideoNameText);

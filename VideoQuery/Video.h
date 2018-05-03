@@ -27,6 +27,7 @@ namespace VideoQuery {
 			String^ GetAudioFilePath() { return folder + "\\" + name + "\\" + name + ".wav";  }
 			String^ GetName() { return name; }
 			bool IsLoaded() { return loaded; }
+			void SetUnderscore(bool);
 
 		private:
 			delegate void StringDelegate(String^);
@@ -50,7 +51,7 @@ namespace VideoQuery {
 			TrackBar^ trackBar;
 			Button^ button;
 			Timers::Timer^ playbackTimer;
-
+			bool hasUnderscore;
 			Audio* audioPlayer;
 	};
 

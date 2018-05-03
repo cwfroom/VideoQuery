@@ -78,6 +78,7 @@ System::Void MainWindow::queryVideoLoadButton_Click(System::Object^  sender, Sys
 		dataVideoListBox->Items->Clear();
 		queryVideoLabel->Text = "Computing Accuracies ....";
 		data.LoadQueryVideo(queryFrames, "query_videos\\query", queryVideoNameText->Text);
+		data.queryVideo->SetUnderscore(underscoreCheck->Checked);
 		array<String^>^ accstrs = data.GetSortedAccuracyStrings();
 		for (int i = 0; i < accstrs->Length; i++) {
 			dataVideoListBox->Items->Add(accstrs[i]);
