@@ -115,9 +115,10 @@ System::Void MainWindow::metricsBox_Paint(Object^ sender, System::Windows::Forms
 		int prev_y = perframeAccuracy(0);
 		for (int x = 1; x < perframeAccuracy.rows(); x++) {
 			int y = perframeAccuracy(x) * 100.0;
+			// (0,0) is top left
 			g->DrawLine(System::Drawing::Pens::Red,
-				(x-1)*2, prev_y,
-				x*2, y);
+				(x-1)*2, 100-prev_y,
+				x*2, 100-y);
 			prev_y = y;
 		}
 	}
